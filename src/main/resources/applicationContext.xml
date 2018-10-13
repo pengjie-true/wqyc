@@ -29,12 +29,12 @@
 	
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="basicDataSource"></property>
-		<property name="mapperLocations" value="classpath:com/uporanges/mapper/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/uporanges/mapper/*/*.xml"></property>
 		<property name="typeAliasesPackage" value="com.uporanges.entity;com.uporanges.evo"></property>
 	</bean>
 	
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.uporanges.mapper.*"></property>
+		<property name="basePackage" value="com.uporanges.mapper"></property>
 	</bean>
 		
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
