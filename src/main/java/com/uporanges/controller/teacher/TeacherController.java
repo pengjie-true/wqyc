@@ -9,5 +9,4 @@ public class TeacherController {
    private ClassLoader loader;
 private Class<?>[] interfaces;
 private InvocationHandler h;
-t_company tt = Proxy.newProxyInstance(loader, interfaces, h);
 }
