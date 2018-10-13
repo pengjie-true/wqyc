@@ -25,7 +25,5 @@ public class test {
 		
 		return us.selectall();
 	}
-	public void bcP() {
-		
-	}
+	
 }
