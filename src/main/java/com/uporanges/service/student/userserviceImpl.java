@@ -1,4 +1,4 @@
-package com.uporanges.serviceImpl.student;
+package com.uporanges.service.student;
 
 import java.util.List;
 
