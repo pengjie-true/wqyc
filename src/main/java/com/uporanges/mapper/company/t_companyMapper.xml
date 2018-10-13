@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uporanges.mapper.company.t_companyMapper" >
+  <resultMap id="BaseResultMap" type="com.uporanges.entity.t_company" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="company_realname" property="companyRealname" jdbcType="VARCHAR" />
+    <result column="company_trade" property="companyTrade" jdbcType="VARCHAR" />
+    <result column="company_nature" property="companyNature" jdbcType="VARCHAR" />
+    <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="company_phone1" property="companyPhone1" jdbcType="VARCHAR" />
+    <result column="company_phone2" property="companyPhone2" jdbcType="VARCHAR" />
+    <result column="company_email" property="companyEmail" jdbcType="VARCHAR" />
+    <result column="company_business license" property="companyBusinessLicense" jdbcType="VARCHAR" />
+    <result column="company_logo_pic" property="companyLogoPic" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="company_legal_person" property="companyLegalPerson" jdbcType="VARCHAR" />
+    <result column="legal_person_card_id" property="legalPersonCardId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.uporanges.entity.t_company" extends="BaseResultMap" >
+    <result column="company1_brief" property="company1Brief" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, company_realname, company_trade, company_nature, company_address, company_phone1, 
+    company_phone2, company_email, "company_business license", company_logo_pic, create_time, 
+    company_legal_person, legal_person_card_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    company1_brief
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_company
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_company
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.uporanges.entity.t_company" >
+    insert into t_company (user_id, company_realname, company_trade, 
+      company_nature, company_address, company_phone1, 
+      company_phone2, company_email, "company_business license", 
+      company_logo_pic, create_time, company_legal_person, 
+      legal_person_card_id, company1_brief)
+    values (#{userId,jdbcType=INTEGER}, #{companyRealname,jdbcType=VARCHAR}, #{companyTrade,jdbcType=VARCHAR}, 
+      #{companyNature,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR}, #{companyPhone1,jdbcType=VARCHAR}, 
+      #{companyPhone2,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, #{companyBusinessLicense,jdbcType=VARCHAR}, 
+      #{companyLogoPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{companyLegalPerson,jdbcType=VARCHAR}, 
+      #{legalPersonCardId,jdbcType=VARCHAR}, #{company1Brief,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uporanges.entity.t_company" >
+    insert into t_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="companyRealname != null" >
+        company_realname,
+      </if>
+      <if test="companyTrade != null" >
+        company_trade,
+      </if>
+      <if test="companyNature != null" >
+        company_nature,
+      </if>
+      <if test="companyAddress != null" >
+        company_address,
+      </if>
+      <if test="companyPhone1 != null" >
+        company_phone1,
+      </if>
+      <if test="companyPhone2 != null" >
+        company_phone2,
+      </if>
+      <if test="companyEmail != null" >
+        company_email,
+      </if>
+      <if test="companyBusinessLicense != null" >
+        "company_business license",
+      </if>
+      <if test="companyLogoPic != null" >
+        company_logo_pic,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="companyLegalPerson != null" >
+        company_legal_person,
+      </if>
+      <if test="legalPersonCardId != null" >
+        legal_person_card_id,
+      </if>
+      <if test="company1Brief != null" >
+        company1_brief,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyRealname != null" >
+        #{companyRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTrade != null" >
+        #{companyTrade,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone1 != null" >
+        #{companyPhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone2 != null" >
+        #{companyPhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null" >
+        #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyBusinessLicense != null" >
+        #{companyBusinessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLogoPic != null" >
+        #{companyLogoPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyLegalPerson != null" >
+        #{companyLegalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCardId != null" >
+        #{legalPersonCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="company1Brief != null" >
+        #{company1Brief,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uporanges.entity.t_company" >
+    update t_company
+    <set >
+      <if test="companyRealname != null" >
+        company_realname = #{companyRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTrade != null" >
+        company_trade = #{companyTrade,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        company_nature = #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone1 != null" >
+        company_phone1 = #{companyPhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone2 != null" >
+        company_phone2 = #{companyPhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null" >
+        company_email = #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyBusinessLicense != null" >
+        "company_business license" = #{companyBusinessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLogoPic != null" >
+        company_logo_pic = #{companyLogoPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyLegalPerson != null" >
+        company_legal_person = #{companyLegalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonCardId != null" >
+        legal_person_card_id = #{legalPersonCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="company1Brief != null" >
+        company1_brief = #{company1Brief,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.uporanges.entity.t_company" >
+    update t_company
+    set company_realname = #{companyRealname,jdbcType=VARCHAR},
+      company_trade = #{companyTrade,jdbcType=VARCHAR},
+      company_nature = #{companyNature,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      company_phone1 = #{companyPhone1,jdbcType=VARCHAR},
+      company_phone2 = #{companyPhone2,jdbcType=VARCHAR},
+      company_email = #{companyEmail,jdbcType=VARCHAR},
+      "company_business license" = #{companyBusinessLicense,jdbcType=VARCHAR},
+      company_logo_pic = #{companyLogoPic,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      company_legal_person = #{companyLegalPerson,jdbcType=VARCHAR},
+      legal_person_card_id = #{legalPersonCardId,jdbcType=VARCHAR},
+      company1_brief = #{company1Brief,jdbcType=LONGVARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uporanges.entity.t_company" >
+    update t_company
+    set company_realname = #{companyRealname,jdbcType=VARCHAR},
+      company_trade = #{companyTrade,jdbcType=VARCHAR},
+      company_nature = #{companyNature,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      company_phone1 = #{companyPhone1,jdbcType=VARCHAR},
+      company_phone2 = #{companyPhone2,jdbcType=VARCHAR},
+      company_email = #{companyEmail,jdbcType=VARCHAR},
+      "company_business license" = #{companyBusinessLicense,jdbcType=VARCHAR},
+      company_logo_pic = #{companyLogoPic,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      company_legal_person = #{companyLegalPerson,jdbcType=VARCHAR},
+      legal_person_card_id = #{legalPersonCardId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
