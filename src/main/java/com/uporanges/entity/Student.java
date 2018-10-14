@@ -10,7 +10,6 @@ public class Student {
 	private Date stu_createdtime;
 	private String stu_realname;
 	private int stu_status;
-	private String stu_headPic;
 	private String stu_qq;
 	private String stu_school;
 	private String stu_major;
@@ -25,7 +24,7 @@ public class Student {
 	private List<StudentSendResume> studentSendResume;
 	public Student() {}
 	public Student(User user, String stu_email, Date stu_createdtime, String stu_realname, int stu_status,
-			String stu_headPic, String stu_qq, String stu_school, String stu_major, Date stu_graduationtime,
+			String stu_qq, String stu_school, String stu_major, Date stu_graduationtime,
 			int stu_sex, int stu_age, String stu_address, int is_mobile_check, String stu_target_job,
 			Date last_login_time, StudentResume studentResume, List<StudentSendResume> studentSendResume) {
 		super();
@@ -34,7 +33,6 @@ public class Student {
 		this.stu_createdtime = stu_createdtime;
 		this.stu_realname = stu_realname;
 		this.stu_status = stu_status;
-		this.stu_headPic = stu_headPic;
 		this.stu_qq = stu_qq;
 		this.stu_school = stu_school;
 		this.stu_major = stu_major;
@@ -77,12 +75,6 @@ public class Student {
 	}
 	public void setStu_status(int stu_status) {
 		this.stu_status = stu_status;
-	}
-	public String getStu_headPic() {
-		return stu_headPic;
-	}
-	public void setStu_headPic(String stu_headPic) {
-		this.stu_headPic = stu_headPic;
 	}
 	public String getStu_qq() {
 		return stu_qq;
