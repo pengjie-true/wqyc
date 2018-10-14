@@ -9,7 +9,7 @@ public class Teacher {
 	private String teacher_name;
 	private Date teacher_birthday;
 	private String teacher_identity;
-	private String teacher_emil;
+	private String teacher_email;
 	private String teacher_WeChat;
 	private String teacher_hometown;
 	private String teacher_sex;
@@ -27,7 +27,7 @@ public class Teacher {
 	private List<CompanyVerifyTeacher> companyVerifyTeacher;
 	public Teacher() {}
 	public Teacher(User user, String teacher_name, Date teacher_birthday, String teacher_identity,
-			String teacher_emil, String teacher_WeChat, String teacher_hometown, String teacher_sex,
+			String teacher_email, String teacher_WeChat, String teacher_hometown, String teacher_sex,
 			String teacher_workschool, Code teacher_major1, Code teacher_major2, String teacher_title,
 			String teacher_post, Code teacher_education1, Code teacher_education2, String teacher_achievements,
 			String teacher_work_describe, String teacher_invite_code, Integer teacher_teach_state,
@@ -37,7 +37,7 @@ public class Teacher {
 		this.teacher_name = teacher_name;
 		this.teacher_birthday = teacher_birthday;
 		this.teacher_identity = teacher_identity;
-		this.teacher_emil = teacher_emil;
+		this.teacher_email = teacher_email;
 		this.teacher_WeChat = teacher_WeChat;
 		this.teacher_hometown = teacher_hometown;
 		this.teacher_sex = teacher_sex;
@@ -78,11 +78,11 @@ public class Teacher {
 	public void setTeacher_identity(String teacher_identity) {
 		this.teacher_identity = teacher_identity;
 	}
-	public String getTeacher_emil() {
-		return teacher_emil;
+	public String getTeacher_email() {
+		return teacher_email;
 	}
-	public void setTeacher_emil(String teacher_emil) {
-		this.teacher_emil = teacher_emil;
+	public void setTeacher_email(String teacher_email) {
+		this.teacher_email = teacher_email;
 	}
 	public String getTeacher_WeChat() {
 		return teacher_WeChat;
