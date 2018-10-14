@@ -1,7 +1,10 @@
 package com.uporanges.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Student {
 
@@ -13,20 +16,21 @@ public class Student {
 	private String stu_qq;
 	private String stu_school;
 	private String stu_major;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
 	private Date stu_graduationtime;
 	private int stu_sex;
 	private int stu_age;
 	private String stu_address;
 	private int is_mobile_check;
 	private String stu_target_job;
-	private Date last_login_time;
+	private Timestamp last_login_time;
 	private StudentResume studentResume; 
 	private List<StudentSendResume> studentSendResume;
 	public Student() {}
 	public Student(User user, String stu_email, Date stu_createdtime, String stu_realname, int stu_status,
 			String stu_qq, String stu_school, String stu_major, Date stu_graduationtime,
 			int stu_sex, int stu_age, String stu_address, int is_mobile_check, String stu_target_job,
-			Date last_login_time, StudentResume studentResume, List<StudentSendResume> studentSendResume) {
+			Timestamp last_login_time, StudentResume studentResume, List<StudentSendResume> studentSendResume) {
 		super();
 		this.user = user;
 		this.stu_email = stu_email;
@@ -130,10 +134,10 @@ public class Student {
 	public void setStu_target_job(String stu_target_job) {
 		this.stu_target_job = stu_target_job;
 	}
-	public Date getLast_login_time() {
+	public Timestamp getLast_login_time() {
 		return last_login_time;
 	}
-	public void setLast_login_time(Date last_login_time) {
+	public void setLast_login_time(Timestamp last_login_time) {
 		this.last_login_time = last_login_time;
 	}
 	public StudentResume getStudentResume() {
@@ -147,6 +151,16 @@ public class Student {
 	}
 	public void setStudentSendResume(List<StudentSendResume> studentSendResume) {
 		this.studentSendResume = studentSendResume;
+	}
+	@Override
+	public String toString() {
+		return "Student [user=" + user + ", stu_email=" + stu_email + ", stu_createdtime=" + stu_createdtime
+				+ ", stu_realname=" + stu_realname + ", stu_status=" + stu_status + ", stu_qq=" + stu_qq
+				+ ", stu_school=" + stu_school + ", stu_major=" + stu_major + ", stu_graduationtime="
+				+ stu_graduationtime + ", stu_sex=" + stu_sex + ", stu_age=" + stu_age + ", stu_address=" + stu_address
+				+ ", is_mobile_check=" + is_mobile_check + ", stu_target_job=" + stu_target_job + ", last_login_time="
+				+ last_login_time + ", studentResume=" + studentResume + ", studentSendResume=" + studentSendResume
+				+ "]";
 	} 
 	
 }
