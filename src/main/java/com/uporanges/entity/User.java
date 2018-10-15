@@ -1,5 +1,7 @@
 package com.uporanges.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class User {
 
 	private Integer user_id;
@@ -7,10 +9,10 @@ public class User {
 	private String user_password;
 	private String user_phone;
 	private Integer role_id;
-	private String user_pic;
+	private MultipartFile user_pic;
 	public User() {}
 	public User(Integer user_id, String user_name, String user_password, String user_phone, Integer role_id,
-			String user_pic) {
+			MultipartFile user_pic) {
 		super();
 		this.user_id = user_id;
 		this.user_name = user_name;
@@ -50,16 +52,11 @@ public class User {
 	public void setRole_id(Integer role_id) {
 		this.role_id = role_id;
 	}
-	public String getUser_pic() {
+	public MultipartFile getUser_pic() {
 		return user_pic;
 	}
-	public void setUser_pic(String user_pic) {
+	public void setUser_pic(MultipartFile user_pic) {
 		this.user_pic = user_pic;
-	}
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", user_name=" + user_name + ", user_password=" + user_password
-				+ ", user_phone=" + user_phone + ", role_id=" + role_id + ", user_pic=" + user_pic + "]";
 	}
 	
 }

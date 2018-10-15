@@ -3,6 +3,7 @@ package com.uporanges.mapper.deal;
 import org.apache.ibatis.jdbc.SQL;
 
 import com.uporanges.entity.Student;
+import com.uporanges.entity.User;
 
 public class StudentProvider {
 
@@ -27,6 +28,19 @@ public class StudentProvider {
 				if(student.getStu_target_job()!=null)
 					VALUES("stu_target_job", "#{stu_target_job}");
 				VALUES("last_login_time", "#{last_login_time}");
+			}
+		}.toString();
+	}
+	public String addUser(User user, final String picPath) {
+		return new SQL() {
+			{
+				INSERT_INTO("t_user");
+				VALUES("user_name", "#{user_name}");
+				VALUES("user_password", "#{user_password}");
+				VALUES("user_phone", "#{user_phone}");
+				VALUES("role_id", "#{role_id}");
+				if(picPath!="")
+					VALUES("user_pic", "#{picPath}");
 			}
 		}.toString();
 	}

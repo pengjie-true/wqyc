@@ -29,7 +29,7 @@
 	
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="basicDataSource"></property>
-		<property name="mapperLocations" value="classpath:com/uporanges/mapper/*/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/uporanges/mapper/*.xml"></property>
 		<property name="typeAliasesPackage" value="com.uporanges.entity;com.uporanges.evo"></property>
 	</bean>
 	

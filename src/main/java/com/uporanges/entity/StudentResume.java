@@ -2,12 +2,14 @@ package com.uporanges.entity;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class StudentResume {
 
 	private int resume_id;
 	private Student student;
 	private String resume_name;
-	private String resume_pic;
+	private MultipartFile resume_pic;
 	private String resume_sex;
 	private Date resume_birthday;
 	private String resume_country;
@@ -17,9 +19,9 @@ public class StudentResume {
 	private String resume_school;
 	private Date resume_graduationtime;
 	private Code education_id1;
-	private Code education_id2;
 	private Code certificate_id1;
 	private Code certificate_id2;
+	private Code certificate_id3;
 	private Code resume_major1;
 	private Code resume_major2;
 	private String resume_honor;
@@ -32,10 +34,10 @@ public class StudentResume {
 	private String resume_document;
 	private Date resume_creattime;
 	public StudentResume() {}
-	public StudentResume(int resume_id, Student student, String resume_name, String resume_pic, String resume_sex,
+	public StudentResume(int resume_id, Student student, String resume_name, MultipartFile resume_pic, String resume_sex,
 			Date resume_birthday, String resume_country, String resume_address, String resume_phone1,
 			String resume_phone2, String resume_school, Date resume_graduationtime, Code education_id1,
-			Code education_id2, Code certificate_id1, Code certificate_id2, Code resume_major1, Code resume_major2,
+			Code certificate_id3, Code certificate_id1, Code certificate_id2, Code resume_major1, Code resume_major2,
 			String resume_honor, String resume_project_experience, String resume_internship_experience,
 			String resume_school_experience, String resume_works, String resume_hobby, String resume_evaluate,
 			String resume_document, Date resume_creattime) {
@@ -53,7 +55,7 @@ public class StudentResume {
 		this.resume_school = resume_school;
 		this.resume_graduationtime = resume_graduationtime;
 		this.education_id1 = education_id1;
-		this.education_id2 = education_id2;
+		this.certificate_id3 = certificate_id3;
 		this.certificate_id1 = certificate_id1;
 		this.certificate_id2 = certificate_id2;
 		this.resume_major1 = resume_major1;
@@ -86,10 +88,10 @@ public class StudentResume {
 	public void setResume_name(String resume_name) {
 		this.resume_name = resume_name;
 	}
-	public String getResume_pic() {
+	public MultipartFile getResume_pic() {
 		return resume_pic;
 	}
-	public void setResume_pic(String resume_pic) {
+	public void setResume_pic(MultipartFile resume_pic) {
 		this.resume_pic = resume_pic;
 	}
 	public String getResume_sex() {
@@ -146,11 +148,11 @@ public class StudentResume {
 	public void setEducation_id1(Code education_id1) {
 		this.education_id1 = education_id1;
 	}
-	public Code getEducation_id2() {
-		return education_id2;
+	public Code getcertificate_id3() {
+		return certificate_id3;
 	}
-	public void setEducation_id2(Code education_id2) {
-		this.education_id2 = education_id2;
+	public void setcertificate_id3(Code certificate_id3) {
+		this.certificate_id3 = certificate_id3;
 	}
 	public Code getCertificate_id1() {
 		return certificate_id1;
