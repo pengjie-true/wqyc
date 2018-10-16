@@ -5,5 +5,31 @@
 	<select id="testGetAllCode" resultType="code">
 		select * from t_code
 	</select>
+	<!-- 根据老师user_id查询老师信息 -->
+	<select id ="getTeacherInfo" parameterType="int" resultMap="teacherMap">
+		select * from t_teacher where user_id=#{user_id}
+	</select>
+	<resultMap type="teacher" id="teacherMap">
+		<id property="user.user_id" column="user_id"/>
+		<result column="teacher_name" property="teacher_name" jdbcType="VARCHAR" />
+	    <result column="teacher_birthday" property="teacher_birthday" jdbcType="DATE" />
+	    <result column="teacher_identity" property="teacher_identity" jdbcType="VARCHAR" />
+	    <result column="teacher_email" property="teacher_email" jdbcType="VARCHAR" />
+	    <result column="teacher_WeChat" property="teacher_WeChat" jdbcType="VARCHAR" />
+	    <result column="teacher_hometown" property="teacher_hometown" jdbcType="VARCHAR" />
+	    <result column="teacher_sex" property="teacher_sex" jdbcType="VARCHAR" />
+	    <result column="teacher_workschool" property="teacher_workschool" jdbcType="VARCHAR" />
+	    <result column="teacher_title" property="teacher_title" jdbcType="VARCHAR" />
+	    <result column="teacher_post" property="teacher_post" jdbcType="VARCHAR" />
+	    <result column="teacher_invite_code" property="teacher_invite_code" jdbcType="VARCHAR" />
+	    <result column="teacher_teach_state" property="teacher_teach_state" jdbcType="BIT" />
+	    <association property="teacher_major1" column="teacher_major1" javaType="code" select="getCodebyId"/>
+	    <association property="teacher_major2" column="teacher_major2" javaType="code" select="getCodebyId"/>
+	    <association property="teacher_education1" column="teacher_education1" javaType="code" select="getCodebyId"/>
+	    <association property="teacher_education2" column="teacher_education2" javaType="code" select="getCodebyId"/>
+	</resultMap>
+	<select id="getCodebyId" parameterType="int" resultType="code">
+		select * from t_code where code_id=#{param1}
+	</select>
 
 </mapper>
