@@ -8,6 +8,7 @@ import com.uporanges.entity.Teacher;
 public interface DealMapper {
 
 	List<Code> testGetAllCode();
+
 	Teacher getTeacherInfo(int user_id);
 	
 }

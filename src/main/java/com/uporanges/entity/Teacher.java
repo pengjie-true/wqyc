@@ -14,8 +14,8 @@ public class Teacher {
 	private String teacher_hometown;
 	private String teacher_sex;
 	private String teacher_workschool;
-	private Code teacher_major1;
-	private Code teacher_major2;
+	private String teacher_major1;
+	private String teacher_major2;
 	private String teacher_title;
 	private String teacher_post;
 	private Code teacher_education1;
@@ -28,7 +28,7 @@ public class Teacher {
 	public Teacher() {}
 	public Teacher(User user, String teacher_name, Date teacher_birthday, String teacher_identity,
 			String teacher_email, String teacher_WeChat, String teacher_hometown, String teacher_sex,
-			String teacher_workschool, Code teacher_major1, Code teacher_major2, String teacher_title,
+			String teacher_workschool, String teacher_major1, String teacher_major2, String teacher_title,
 			String teacher_post, Code teacher_education1, Code teacher_education2, String teacher_achievements,
 			String teacher_work_describe, String teacher_invite_code, Integer teacher_teach_state,
 			List<CompanyVerifyTeacher> companyVerifyTeacher) {
@@ -108,16 +108,16 @@ public class Teacher {
 	public void setTeacher_workschool(String teacher_workschool) {
 		this.teacher_workschool = teacher_workschool;
 	}
-	public Code getTeacher_major1() {
+	public String getTeacher_major1() {
 		return teacher_major1;
 	}
-	public void setTeacher_major1(Code teacher_major1) {
+	public void setTeacher_major1(String teacher_major1) {
 		this.teacher_major1 = teacher_major1;
 	}
-	public Code getTeacher_major2() {
+	public String getTeacher_major2() {
 		return teacher_major2;
 	}
-	public void setTeacher_major2(Code teacher_major2) {
+	public void setTeacher_major2(String teacher_major2) {
 		this.teacher_major2 = teacher_major2;
 	}
 	public String getTeacher_title() {

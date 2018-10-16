@@ -18,13 +18,13 @@
 	    <result column="teacher_WeChat" property="teacher_WeChat" jdbcType="VARCHAR" />
 	    <result column="teacher_hometown" property="teacher_hometown" jdbcType="VARCHAR" />
 	    <result column="teacher_sex" property="teacher_sex" jdbcType="VARCHAR" />
+	    <result column="teacher_major1" property="teacher_major1" jdbcType="VARCHAR" />
+	    <result column="teacher_major2" property="teacher_major2" jdbcType="VARCHAR" />
 	    <result column="teacher_workschool" property="teacher_workschool" jdbcType="VARCHAR" />
 	    <result column="teacher_title" property="teacher_title" jdbcType="VARCHAR" />
 	    <result column="teacher_post" property="teacher_post" jdbcType="VARCHAR" />
 	    <result column="teacher_invite_code" property="teacher_invite_code" jdbcType="VARCHAR" />
 	    <result column="teacher_teach_state" property="teacher_teach_state" jdbcType="BIT" />
-	    <association property="teacher_major1" column="teacher_major1" javaType="code" select="getCodebyId"/>
-	    <association property="teacher_major2" column="teacher_major2" javaType="code" select="getCodebyId"/>
 	    <association property="teacher_education1" column="teacher_education1" javaType="code" select="getCodebyId"/>
 	    <association property="teacher_education2" column="teacher_education2" javaType="code" select="getCodebyId"/>
 	</resultMap>
