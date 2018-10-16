@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uporanges.mapper.deal.TeacherMapper" >
+
+
+
+
+	<select id="checkrole" resultType="int">
+		select count(*) from t_user WHERE user_id=#{arg0} AND role_id=2
+	</select>
+	<select id ="getall" resultType="com.uporanges.entity.Teacher">
+	  select * from t_teacher WHERE user_id=#{arg0}
+	</select>
+<!-- 
+  <resultMap id="BaseResultMap" type="com.uporanges.entity.Teacher" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="teacher_name" property="teacher_name" jdbcType="VARCHAR" />
+    <result column="teacher_birthday" property="teacher_birthday" jdbcType="DATE" />
+    <result column="teacher_identity" property="teacher_identity" jdbcType="VARCHAR" />
+    <result column="teacher_emil" property="teacher_emil" jdbcType="VARCHAR" />
+    <result column="teacher_WeChat" property="teacher_WeChat" jdbcType="VARCHAR" />
+    <result column="teacher_hometown" property="teacher_hometown" jdbcType="VARCHAR" />
+    <result column="teacher_phone" property="teacher_phone" jdbcType="VARCHAR" />
+    <result column="teacher_sex" property="teacher_sex" jdbcType="VARCHAR" />
+    <result column="teacher_workschool" property="teacher_workschool" jdbcType="VARCHAR" />
+    <result column="teacher_major1" property="teacher_major1" jdbcType="INTEGER" />
+    <result column="teacher_major2" property="teacher_major2" jdbcType="INTEGER" />
+    <result column="teacher_title" property="teacher_title" jdbcType="VARCHAR" />
+    <result column="teacher_post" property="teacher_post" jdbcType="VARCHAR" />
+    <result column="teacher_education1" property="teacher_education1" jdbcType="INTEGER" />
+    <result column="teacher_education2" property="teacher_education2" jdbcType="INTEGER" />
+    <result column="teacher_invite_code" property="teacher_invite_code" jdbcType="VARCHAR" />
+    <result column="teacher_teach_state" property="teacher_teach_state" jdbcType="BIT" />
+  </resultMap> -->
+</mapper>
