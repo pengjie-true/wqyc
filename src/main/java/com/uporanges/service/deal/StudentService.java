@@ -16,5 +16,9 @@ public interface StudentService {
 	public int alterStudent(Student student);
 	//查询学生个人信息
 	public BackJSON getStudentInfo(String user_id);
+	//根据phone判断是否已经注册
+	public boolean ifPhoneIn(String phone);
+	//根据email判断是否已经注册
+	public boolean ifeMailIn(String email);
 	
 }

@@ -38,25 +38,27 @@ public class StudentServiceImpl implements StudentService{
 	public Map<String, Object> addUserStudent(User user, Student student) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		MultipartFile pic = user.getUser_pic();
-		String fileName = "";
 		result.put("code", 400);
-		if(pic!=null) {
-			String path = Value.getUserpicpath();
-			fileName = pic.getOriginalFilename();
-			File file = new File(path+File.separator+fileName);
-			try {
-				pic.transferTo(file);
-			} catch (Exception e) {
-				e.printStackTrace();
+		if(studentMapper.addUser(user)==1) {
+			int user_id = user.getUser_id();
+			//写入用户头像
+			if(pic!=null) {
+				String path = Value.getUserpicpath();
+				//文件名字： 1+1539663242037+pic.jpg
+				String fileName = user.getUser_id()+"+"+System.currentTimeMillis()+"+"+pic.getOriginalFilename();
+				File file = new File(path+File.separator+fileName);
+				try {
+					pic.transferTo(file);
+					studentMapper.addUserPicture(user_id, fileName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		int i = studentMapper.addUser(user, fileName);
-		if(i==1) {
 			student.setUser(user);
 			if(studentMapper.addStudent(student)==1)
 			{
 				result.replace("code", 200);
-				result.put("user_id", user.getUser_id());
+				result.put("user_id", user_id);
 			}
 		}
 		return result;
@@ -73,6 +75,16 @@ public class StudentServiceImpl implements StudentService{
 		else 
 			json.setCode(400);
 		return json;
+	}
+	public boolean ifPhoneIn(String phone) {
+		if(studentMapper.getUseridName(phone)!=null)
+			return true;
+		return false;
+	}
+	public boolean ifeMailIn(String email) {
+		if(studentMapper.getStudentIdName(email)!=null)
+			return true;
+		return false;
 	}
 
 }

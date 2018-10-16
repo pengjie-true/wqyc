@@ -39,8 +39,6 @@ public class StudentProvider {
 				VALUES("user_password", "#{user_password}");
 				VALUES("user_phone", "#{user_phone}");
 				VALUES("role_id", "#{role_id}");
-				if(picPath!="")
-					VALUES("user_pic", "#{picPath}");
 			}
 		}.toString();
 	}
