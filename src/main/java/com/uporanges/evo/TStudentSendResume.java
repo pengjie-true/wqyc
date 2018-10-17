@@ -1,18 +1,18 @@
-package com.uporanges.entity;
+package com.uporanges.evo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class StudentSendResume {
-
+public class TStudentSendResume {
+	
 	private Integer send_resume_id;
-	private Student student;
-	private StudentResume studentResume;
-	private Company company;
-	private Job job1;
-	private Job job2;
+	private Integer user_id;
+	private Integer resume_id;
+	private Integer company_id;
+	private Integer expect_job_id1;
+	private Integer expect_job_id2;
 	private String resume_expect_workplace1;
 	private String resume_expect_workplace2;
 	private Integer resume_expect_salary;
@@ -20,17 +20,18 @@ public class StudentSendResume {
 	private Date resume_to_work_time;
 	private Integer delivar_state;
 	private Timestamp deliver_time;
-	public StudentSendResume() {}
-	public StudentSendResume(Integer send_resume_id, Student student, StudentResume studentResume, Company company,
-			Job job1, Job job2, String resume_expect_workplace1, String resume_expect_workplace2,
-			Integer resume_expect_salary, Date resume_to_work_time, Integer delivar_state, Timestamp deliver_time) {
+	public TStudentSendResume() {}
+	public TStudentSendResume(Integer send_resume_id, Integer user_id, Integer resume_id, Integer company_id,
+			Integer expect_job_id1, Integer expect_job_id2, String resume_expect_workplace1,
+			String resume_expect_workplace2, Integer resume_expect_salary, Date resume_to_work_time,
+			Integer delivar_state, Timestamp deliver_time) {
 		super();
 		this.send_resume_id = send_resume_id;
-		this.student = student;
-		this.studentResume = studentResume;
-		this.company = company;
-		this.job1 = job1;
-		this.job2 = job2;
+		this.user_id = user_id;
+		this.resume_id = resume_id;
+		this.company_id = company_id;
+		this.expect_job_id1 = expect_job_id1;
+		this.expect_job_id2 = expect_job_id2;
 		this.resume_expect_workplace1 = resume_expect_workplace1;
 		this.resume_expect_workplace2 = resume_expect_workplace2;
 		this.resume_expect_salary = resume_expect_salary;
@@ -44,35 +45,35 @@ public class StudentSendResume {
 	public void setSend_resume_id(Integer send_resume_id) {
 		this.send_resume_id = send_resume_id;
 	}
-	public Student getStudent() {
-		return student;
+	public Integer getUser_id() {
+		return user_id;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
-	public StudentResume getStudentResume() {
-		return studentResume;
+	public Integer getResume_id() {
+		return resume_id;
 	}
-	public void setStudentResume(StudentResume studentResume) {
-		this.studentResume = studentResume;
+	public void setResume_id(Integer resume_id) {
+		this.resume_id = resume_id;
 	}
-	public Company getCompany() {
-		return company;
+	public Integer getCompany_id() {
+		return company_id;
 	}
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompany_id(Integer company_id) {
+		this.company_id = company_id;
 	}
-	public Job getJob1() {
-		return job1;
+	public Integer getExpect_job_id1() {
+		return expect_job_id1;
 	}
-	public void setJob1(Job job1) {
-		this.job1 = job1;
+	public void setExpect_job_id1(Integer expect_job_id1) {
+		this.expect_job_id1 = expect_job_id1;
 	}
-	public Job getJob2() {
-		return job2;
+	public Integer getExpect_job_id2() {
+		return expect_job_id2;
 	}
-	public void setJob2(Job job2) {
-		this.job2 = job2;
+	public void setExpect_job_id2(Integer expect_job_id2) {
+		this.expect_job_id2 = expect_job_id2;
 	}
 	public String getResume_expect_workplace1() {
 		return resume_expect_workplace1;
@@ -110,5 +111,5 @@ public class StudentSendResume {
 	public void setDeliver_time(Timestamp deliver_time) {
 		this.deliver_time = deliver_time;
 	}
-	
+
 }

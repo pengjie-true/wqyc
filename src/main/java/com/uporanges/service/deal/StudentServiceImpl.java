@@ -1,9 +1,9 @@
 package com.uporanges.service.deal;
 
 import java.io.File;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONObject;
+import com.uporanges.entity.CompanyJob;
 import com.uporanges.entity.Student;
+import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
 import com.uporanges.evo.StudentInfo;
+import com.uporanges.evo.TStudentResume;
+import com.uporanges.evo.TStudentSendResume;
+import com.uporanges.evo.TTeacherVerifyStudent;
 import com.uporanges.mapper.deal.StudentMapper;
 import com.uporanges.util.Value;
 
@@ -28,7 +34,7 @@ public class StudentServiceImpl implements StudentService{
 	private StudentMapper studentMapper;
 	public int addStudent(Student student) {
 		long now = System.currentTimeMillis();
-		student.setStu_createdtime(new Date(now));
+		student.setStu_createdtime(new Timestamp(now));
 		student.setStu_status(1);
 		student.setIs_mobile_check(1);
 		student.setLast_login_time(new Timestamp(now));
@@ -44,8 +50,8 @@ public class StudentServiceImpl implements StudentService{
 			//写入用户头像
 			if(pic!=null) {
 				String path = Value.getUserpicpath();
-				//文件名字： 1+1539663242037+pic.jpg
-				String fileName = user.getUser_id()+"+"+System.currentTimeMillis()+"+"+pic.getOriginalFilename();
+				//文件名字： 1-1539663242037-pic.jpg
+				String fileName = user.getUser_id()+"-"+System.currentTimeMillis()+"-"+pic.getOriginalFilename();
 				File file = new File(path+File.separator+fileName);
 				try {
 					pic.transferTo(file);
@@ -85,6 +91,113 @@ public class StudentServiceImpl implements StudentService{
 		if(studentMapper.getStudentIdName(email)!=null)
 			return true;
 		return false;
+	}
+	@Transactional
+	public String addResume(StudentResume sr) {
+		String data = "";
+		long now = System.currentTimeMillis();
+		//图片和简历名字前缀
+		String prefixName = sr.getStudent().getUser().getUser_id()+"-"+now+"-";
+		MultipartFile pic = sr.getResume_pic();
+		MultipartFile doc = sr.getResume_document();
+		//文件名字：user_id-当前毫秒数-文件名字
+		String picName = prefixName + pic.getOriginalFilename();
+		String docName = prefixName + doc.getOriginalFilename();
+		sr.setResume_creattime(new Timestamp(now));
+		if(studentMapper.addResume(sr, picName, docName)==1) {
+			//获取要写入的文件
+			File picFile = new File(Value.getStudentresumepicpath()+File.separator+picName);
+			File docFile = new File(Value.getStudentresumepath()+File.separator+docName);
+			try {
+				pic.transferTo(picFile);
+				doc.transferTo(docFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			data = "{\"code\":200, \"resume_id\":"+sr.getResume_id()+"}";
+		} else
+			data = "{\"code\":400, \"resume_id\":0}";
+		return data;
+	}
+	public String selectCode(String codeName) {
+		return JSONObject.toJSONString(studentMapper.getCodebyName(codeName));
+	}
+	@Transactional
+	public String alterResume(TStudentResume tsr) {
+		String data = "{\"code\":200}";
+		MultipartFile pic = tsr.getResume_pic();
+		MultipartFile doc = tsr.getResume_document();
+		String picName = "";
+		String docName = "";
+		if(pic!=null || doc!=null) {
+			String prefixName = tsr.getUser_id()+"-"+System.currentTimeMillis()+"-";
+			try {
+				if(pic!=null) {
+					picName = prefixName+pic.getOriginalFilename();
+					File picFile = new File(Value.getStudentresumepicpath()+File.separator+picName);
+					pic.transferTo(picFile);
+				}
+				if(doc!=null) {
+					docName = prefixName+doc.getOriginalFilename();
+					File docFile = new File(Value.getStudentresumepath()+File.separator+docName);
+					doc.transferTo(docFile);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+		if(studentMapper.alterResume(tsr, picName, docName)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String deleteResume(int user_id, int resume_id) {
+		String data = "{\"code\":200}";
+		if(studentMapper.deleteResume(user_id, resume_id)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional(readOnly=true)
+	public BackJSON getStudentResume(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(200);
+		StudentResume sr = studentMapper.getStudentResume(user_id);
+		if(sr!=null) 
+			json.setData(sr);
+		else 
+			json.setCode(400);
+		return json;
+	}
+	@Transactional
+	public String sendResume(TStudentSendResume tsr) {
+		String data = "{\"code\":400, \"send_resume_id\":0}";
+		//delivar_state 0-没看，1-录用，2-拒绝
+		tsr.setDelivar_state(0);
+		tsr.setDeliver_time(new Timestamp(System.currentTimeMillis()));
+		if(studentMapper.sendResume(tsr)==1) 
+			data = "{\"code\":200, \"send_resume_id\":"+tsr.getSend_resume_id()+"}";
+		return data;
+	}
+	public BackJSON getCompanyJob(int company_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<CompanyJob> cjs = studentMapper.getCompanyJob(company_id);
+		if(cjs.size()>0) {
+			json.setCode(200);;
+			json.setData(cjs);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	//join_state 0-没看，1-录用， 2-拒绝
+	@Transactional
+	public String toTeacher(TTeacherVerifyStudent ttvs) {
+		String data = "{\"code\":200}";
+		ttvs.setJoin_state(0);
+		ttvs.setJoin_time(new Timestamp(System.currentTimeMillis()));
+		if(studentMapper.toTeacher(ttvs)!=1)
+			data = "{\"code\":400}";
+		return data;
 	}
 
 }

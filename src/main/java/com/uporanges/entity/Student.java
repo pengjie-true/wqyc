@@ -10,7 +10,7 @@ public class Student {
 
 	private User user;
 	private String stu_email;
-	private Date stu_createdtime;
+	private Timestamp stu_createdtime;
 	private String stu_realname;
 	private int stu_status;
 	private String stu_qq;
@@ -27,7 +27,7 @@ public class Student {
 	private StudentResume studentResume; 
 	private List<StudentSendResume> studentSendResume;
 	public Student() {}
-	public Student(User user, String stu_email, Date stu_createdtime, String stu_realname, int stu_status,
+	public Student(User user, String stu_email, Timestamp stu_createdtime, String stu_realname, int stu_status,
 			String stu_qq, String stu_school, String stu_major, Date stu_graduationtime,
 			int stu_sex, int stu_age, String stu_address, int is_mobile_check, String stu_target_job,
 			Timestamp last_login_time, StudentResume studentResume, List<StudentSendResume> studentSendResume) {
@@ -62,10 +62,10 @@ public class Student {
 	public void setStu_email(String stu_email) {
 		this.stu_email = stu_email;
 	}
-	public Date getStu_createdtime() {
+	public Timestamp getStu_createdtime() {
 		return stu_createdtime;
 	}
-	public void setStu_createdtime(Date stu_createdtime) {
+	public void setStu_createdtime(Timestamp stu_createdtime) {
 		this.stu_createdtime = stu_createdtime;
 	}
 	public String getStu_realname() {
