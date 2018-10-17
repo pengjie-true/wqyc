@@ -143,9 +143,23 @@
 		teacher_id=#{arg0}
 	</select>
 	<update id="TeacherVerifyStudent" parameterType="int">
-		UPDATE t_teacher_verify_student SET join_state=1 WHERE teacher_id =#{arg0}
+		UPDATE
+		t_teacher_verify_student SET join_state=1 WHERE teacher_id =#{arg0}
 		AND student_id =#{arg1}
 	</update>
+	<insert id="TeacherRecommendStu" parameterType="com.uporanges.evo.data_teacher">
+		INSERT INTO
+		t_teacher_recommend VALUES (
+		#{recommend_id},
+		#{teacher_id},
+		#{student_id},
+		#{send_resume_id},
+		#{company_id},
+		#{recommend_describe},
+		#{recommend_time}
+		)
+
+	</insert>
 
 
 

@@ -1,5 +1,7 @@
 package com.uporanges.controller.deal;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uporanges.entity.Teacher;
+import com.uporanges.entity.TeacherRecommend;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.data_teacher;
 import com.uporanges.service.deal.TeacherService;
 
 @RestController
@@ -90,6 +94,16 @@ public class TeacherController {
 	@GetMapping("verifystujoin")
 	public BackJSON verifystujoin(int teacher_id, int student_id) {
 		return teacherservice.TeacherVerifyStudent(teacher_id, student_id);
+	}
+
+	/**
+	 * 老师推荐学生接口
+	 * http://localhost:8080/qwyc1-0/teacher/teacherecommendstu.shtml?teacher_id=2&student_id=4&company_id=3&recommend_describe=111
+	 */
+	@GetMapping("teacherecommendstu")
+	public BackJSON teacherecommendstu(data_teacher data) {
+		data.setRecommend_time(new Date());
+		return teacherservice.TeacherRecommendStu(data);
 	}
 
 }

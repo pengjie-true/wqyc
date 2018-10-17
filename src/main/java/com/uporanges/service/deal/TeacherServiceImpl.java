@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uporanges.entity.Teacher;
+import com.uporanges.entity.TeacherRecommend;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.data_teacher;
 import com.uporanges.mapper.deal.TeacherMapper;
 
 @Service
@@ -82,11 +84,11 @@ public class TeacherServiceImpl implements TeacherService {
 		back.setData(teachermapper.getTS_verify(teacher_id));
 		return back;
 	}
-	//教师审核学生加入接口
+	// 教师审核学生加入接口
 
 	public BackJSON TeacherVerifyStudent(int teacher_id, int student_id) {
 		BackJSON back = new BackJSON();
-		if(teachermapper.TeacherVerifyStudent(teacher_id, student_id)>0) {
+		if (teachermapper.TeacherVerifyStudent(teacher_id, student_id) > 0) {
 			back.setCode(200);
 			back.setData("审核成功");
 			return back;
@@ -95,16 +97,18 @@ public class TeacherServiceImpl implements TeacherService {
 		back.setData("审核失败");
 		return back;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	// 老师向企业推荐学生接口
+	public BackJSON TeacherRecommendStu(data_teacher data) {
+		BackJSON back = new BackJSON();
+		if (teachermapper.TeacherRecommendStu(data) > 0) {
+			back.setCode(200);
+			back.setData("操作成功");
+			return back;
+		}
+		back.setCode(400);
+		back.setData("操作失败");
+		return back;
+	}
 
 }
