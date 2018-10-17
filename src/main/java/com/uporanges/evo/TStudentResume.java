@@ -1,4 +1,4 @@
-package com.uporanges.entity;
+package com.uporanges.evo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -7,10 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class StudentResume {
+public class TStudentResume {
 
 	private Integer resume_id;
-	private Student student;
+	private Integer user_id;
 	private String resume_name;
 	private MultipartFile resume_pic;
 	private String resume_sex;
@@ -23,12 +23,12 @@ public class StudentResume {
 	private String resume_school;
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
 	private Date resume_graduationtime;
-	private Code education_id1;
-	private Code certificate_id1;
-	private Code certificate_id2;
-	private Code certificate_id3;
-	private Code resume_major1;
-	private Code resume_major2;
+	private Integer education_id1;
+	private Integer certificate_id1;
+	private Integer certificate_id2;
+	private Integer certificate_id3;
+	private Integer resume_major1;
+	private Integer resume_major2;
 	private String resume_honor;
 	private String resume_project_experience;
 	private String resume_internship_experience;
@@ -38,20 +38,17 @@ public class StudentResume {
 	private String resume_evaluate;
 	private MultipartFile resume_document;
 	private Timestamp resume_creattime;
-	private String resume_pic_path;
-	private String resume_document_path;
-	public StudentResume() {}
-	public StudentResume(Integer resume_id, Student student, String resume_name, MultipartFile resume_pic,
+	public TStudentResume() {}
+	public TStudentResume(Integer resume_id, Integer user_id, String resume_name, MultipartFile resume_pic,
 			String resume_sex, Date resume_birthday, String resume_country, String resume_address, String resume_phone1,
-			String resume_phone2, String resume_school, Date resume_graduationtime, Code education_id1,
-			Code certificate_id1, Code certificate_id2, Code certificate_id3, Code resume_major1, Code resume_major2,
-			String resume_honor, String resume_project_experience, String resume_internship_experience,
-			String resume_school_experience, String resume_works, String resume_hobby, String resume_evaluate,
-			MultipartFile resume_document, Timestamp resume_creattime, String resume_pic_path,
-			String resume_document_path) {
+			String resume_phone2, String resume_school, Date resume_graduationtime, Integer education_id1,
+			Integer certificate_id1, Integer certificate_id2, Integer certificate_id3, Integer resume_major1,
+			Integer resume_major2, String resume_honor, String resume_project_experience,
+			String resume_internship_experience, String resume_school_experience, String resume_works,
+			String resume_hobby, String resume_evaluate, MultipartFile resume_document, Timestamp resume_creattime) {
 		super();
 		this.resume_id = resume_id;
-		this.student = student;
+		this.user_id = user_id;
 		this.resume_name = resume_name;
 		this.resume_pic = resume_pic;
 		this.resume_sex = resume_sex;
@@ -77,8 +74,6 @@ public class StudentResume {
 		this.resume_evaluate = resume_evaluate;
 		this.resume_document = resume_document;
 		this.resume_creattime = resume_creattime;
-		this.resume_pic_path = resume_pic_path;
-		this.resume_document_path = resume_document_path;
 	}
 	public Integer getResume_id() {
 		return resume_id;
@@ -86,11 +81,11 @@ public class StudentResume {
 	public void setResume_id(Integer resume_id) {
 		this.resume_id = resume_id;
 	}
-	public Student getStudent() {
-		return student;
+	public Integer getUser_id() {
+		return user_id;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
 	public String getResume_name() {
 		return resume_name;
@@ -152,40 +147,40 @@ public class StudentResume {
 	public void setResume_graduationtime(Date resume_graduationtime) {
 		this.resume_graduationtime = resume_graduationtime;
 	}
-	public Code getEducation_id1() {
+	public Integer getEducation_id1() {
 		return education_id1;
 	}
-	public void setEducation_id1(Code education_id1) {
+	public void setEducation_id1(Integer education_id1) {
 		this.education_id1 = education_id1;
 	}
-	public Code getCertificate_id1() {
+	public Integer getCertificate_id1() {
 		return certificate_id1;
 	}
-	public void setCertificate_id1(Code certificate_id1) {
+	public void setCertificate_id1(Integer certificate_id1) {
 		this.certificate_id1 = certificate_id1;
 	}
-	public Code getCertificate_id2() {
+	public Integer getCertificate_id2() {
 		return certificate_id2;
 	}
-	public void setCertificate_id2(Code certificate_id2) {
+	public void setCertificate_id2(Integer certificate_id2) {
 		this.certificate_id2 = certificate_id2;
 	}
-	public Code getCertificate_id3() {
+	public Integer getCertificate_id3() {
 		return certificate_id3;
 	}
-	public void setCertificate_id3(Code certificate_id3) {
+	public void setCertificate_id3(Integer certificate_id3) {
 		this.certificate_id3 = certificate_id3;
 	}
-	public Code getResume_major1() {
+	public Integer getResume_major1() {
 		return resume_major1;
 	}
-	public void setResume_major1(Code resume_major1) {
+	public void setResume_major1(Integer resume_major1) {
 		this.resume_major1 = resume_major1;
 	}
-	public Code getResume_major2() {
+	public Integer getResume_major2() {
 		return resume_major2;
 	}
-	public void setResume_major2(Code resume_major2) {
+	public void setResume_major2(Integer resume_major2) {
 		this.resume_major2 = resume_major2;
 	}
 	public String getResume_honor() {
@@ -241,18 +236,6 @@ public class StudentResume {
 	}
 	public void setResume_creattime(Timestamp resume_creattime) {
 		this.resume_creattime = resume_creattime;
-	}
-	public String getResume_pic_path() {
-		return resume_pic_path;
-	}
-	public void setResume_pic_path(String resume_pic_path) {
-		this.resume_pic_path = resume_pic_path;
-	}
-	public String getResume_document_path() {
-		return resume_document_path;
-	}
-	public void setResume_document_path(String resume_document_path) {
-		this.resume_document_path = resume_document_path;
 	}
 	
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Util {
 	
 	public static void writeJson(HttpServletResponse response, String data){
+		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter writer;
 		try {
