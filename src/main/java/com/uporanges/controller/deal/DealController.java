@@ -1,6 +1,7 @@
 package com.uporanges.controller.deal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,11 @@ public class DealController {
 	@ResponseBody
 	public BackJSON getTeacherInfo(int user_id) {
 		return dealService.getTeacherInfo(user_id);
+	}
+	@GetMapping("/getTeacherInfoD")
+	@ResponseBody
+	public Map<String, Object> getTeacherInfoD(int user_id) {
+		return dealService.getTeacherInfoD(user_id);
 	}
 	
 }

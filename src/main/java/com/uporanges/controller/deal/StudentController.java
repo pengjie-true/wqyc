@@ -79,6 +79,10 @@ public class StudentController {
 			data = "{\"code\":400}";
 		Util.writeJson(response, data);
 	}
+	/*
+	 * bc 10.16
+	 * 查看学生信息
+	 */
 	@GetMapping("/getStudentInfo")
 	@ResponseBody
 	public BackJSON getStudentInfo(String user_id) {
