@@ -1,6 +1,7 @@
 package com.uporanges.service.deal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class DealServiceImpl implements DealService{
 			json.setData(400);
 		json.setData(teacher);
 		return json;
+	}
+	public Map<String, Object> getTeacherInfoD(int user_id) {
+		return dealMapper.getTeacherInfoD(user_id);
 	}
 
 }
