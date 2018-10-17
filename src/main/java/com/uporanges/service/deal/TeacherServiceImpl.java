@@ -1,4 +1,4 @@
-package com.uporanges.service.deal;
+﻿package com.uporanges.service.deal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class TeacherServiceImpl implements TeacherService {
 	@Autowired
 	TeacherMapper teachermapper;
 
-	// 检查是否是老师
+	// 检查是否是老师。
 	public int checkrole(int user_id) {
 		// TODO Auto-generated method stub
 		return teachermapper.checkrole(user_id);
