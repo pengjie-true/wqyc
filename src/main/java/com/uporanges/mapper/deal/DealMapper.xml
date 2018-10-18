@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uporanges.mapper.deal.DealMapper" >
+
+	<select id="testGetAllCode" resultType="code">
+		select * from t_code
+	</select>
+	<!-- 根据老师user_id查询老师信息 -->
+	<select id ="getTeacherInfo" parameterType="int" resultMap="teacherMap">
+		select * from t_teacher where user_id=#{user_id}
+	</select>
+	<resultMap type="teacher" id="teacherMap">
+		<id property="user.user_id" column="user_id"/>
+		<result column="teacher_name" property="teacher_name" jdbcType="VARCHAR" />
+	    <result column="teacher_birthday" property="teacher_birthday" jdbcType="DATE" />
+	    <result column="teacher_identity" property="teacher_identity" jdbcType="VARCHAR" />
+	    <result column="teacher_email" property="teacher_email" jdbcType="VARCHAR" />
+	    <result column="teacher_WeChat" property="teacher_WeChat" jdbcType="VARCHAR" />
+	    <result column="teacher_hometown" property="teacher_hometown" jdbcType="VARCHAR" />
+	    <result column="teacher_sex" property="teacher_sex" jdbcType="VARCHAR" />
+	    <result column="teacher_major1" property="teacher_major1" jdbcType="VARCHAR" />
+	    <result column="teacher_major2" property="teacher_major2" jdbcType="VARCHAR" />
+	    <result column="teacher_workschool" property="teacher_workschool" jdbcType="VARCHAR" />
+	    <result column="teacher_title" property="teacher_title" jdbcType="VARCHAR" />
+	    <result column="teacher_post" property="teacher_post" jdbcType="VARCHAR" />
+	    <result column="teacher_invite_code" property="teacher_invite_code" jdbcType="VARCHAR" />
+	    <result column="teacher_teach_state" property="teacher_teach_state" jdbcType="BIT" />
+	    <association property="teacher_education1" column="teacher_education1" javaType="code" select="getCodebyId"/>
+	    <association property="teacher_education2" column="teacher_education2" javaType="code" select="getCodebyId"/>
+	</resultMap>
+	<select id="getCodebyId" parameterType="int" resultType="code">
+		select * from t_code where code_id=#{param1}
+	</select>
+	<select id="getTeacherInfoD" parameterType="int" resultType="map">
+		select t.user_id, t.teacher_name, t.teacher_birthday, t.teacher_identity, t.teacher_email, t.teacher_WeChat, t.teacher_hometown,
+		t.teacher_sex, t.teacher_workschool, t.teacher_title, t.teacher_post, t.teacher_invite_code, t.teacher_teach_state, 
+		cm1.code_content as teacher_major1, cm2.code_content as teacher_major2, 
+		ce1.code_content as teacher_education1, ce2.code_content as teacher_education2 
+		from t_teacher t, t_code cm1, t_code cm2, t_code ce1, t_code ce2 where t.user_id=#{user_id} 
+		and cm1.code_id=t.teacher_major1 and cm2.code_id=t.teacher_major2 
+		and	ce1.code_id=t.teacher_education1 and ce2.code_id=t.teacher_education2  
+	</select>
+
+</mapper>

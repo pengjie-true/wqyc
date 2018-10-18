@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.uporanges.mapper.*"></property>
+		<property name="basePackage" value="com.uporanges.mapper"></property>
 	</bean>
 		
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

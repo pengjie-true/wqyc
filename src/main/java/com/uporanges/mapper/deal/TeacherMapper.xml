@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uporanges.mapper.deal.TeacherMapper">
+	<select id="checkrole" resultType="int">
+		select count(*) from t_user
+		WHERE user_id=#{arg0} AND role_id=2
+	</select>
+	<!-- 根据老师user_id查询老师信息 -->
+	<select id="getTeacherInfo" parameterType="int" resultMap="teacherMap">
+		select * from t_teacher where user_id=#{user_id}
+	</select>
+	<resultMap type="teacher" id="teacherMap">
+		<id property="user.user_id" column="user_id" />
+		<result column="teacher_name" property="teacher_name" jdbcType="VARCHAR" />
+		<result column="teacher_birthday" property="teacher_birthday"
+			jdbcType="DATE" />
+		<result column="teacher_identity" property="teacher_identity"
+			jdbcType="VARCHAR" />
+		<result column="teacher_email" property="teacher_email"
+			jdbcType="VARCHAR" />
+		<result column="teacher_WeChat" property="teacher_WeChat"
+			jdbcType="VARCHAR" />
+		<result column="teacher_hometown" property="teacher_hometown"
+			jdbcType="VARCHAR" />
+		<result column="teacher_sex" property="teacher_sex" jdbcType="VARCHAR" />
+		<result column="teacher_major1" property="teacher_major1"
+			jdbcType="VARCHAR" />
+		<result column="teacher_major2" property="teacher_major2"
+			jdbcType="VARCHAR" />
+		<result column="teacher_workschool" property="teacher_workschool"
+			jdbcType="VARCHAR" />
+		<result column="teacher_title" property="teacher_title"
+			jdbcType="VARCHAR" />
+		<result column="teacher_post" property="teacher_post" jdbcType="VARCHAR" />
+		<result column="teacher_invite_code" property="teacher_invite_code"
+			jdbcType="VARCHAR" />
+		<result column="teacher_teach_state" property="teacher_teach_state"
+			jdbcType="BIT" />
+		<association property="teacher_education1" column="teacher_education1"
+			javaType="code" select="getCodebyId" />
+		<association property="teacher_education2" column="teacher_education2"
+			javaType="code" select="getCodebyId" />
+	</resultMap>
+	<select id="getCodebyId" parameterType="int" resultType="code">
+		select *
+		from t_code where code_id=#{param1}
+	</select>
+
+	<insert id="addteacherself" parameterType="com.uporanges.mapper.deal.TeacherMapper">
+		insert into t_teacher
+		values (#{user.user_id},
+		#{teacher_name},
+		#{teacher_birthday},
+		#{teacher_identity},
+		#{teacher_email},
+		#{teacher_WeChat},
+		#{teacher_hometown},
+		#{teacher_sex},
+		#{teacher_workschool},
+		#{teacher_major1},
+		#{teacher_major2},
+		#{teacher_title},
+		#{teacher_post},
+		#{teacher_education1},
+		#{teacher_education2},
+		teacher_teach_state=1,
+		teacher_invite_code=null,
+		#{teacher_achievements},
+		#{teacher_work_describe}
+		)
+
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.uporanges.mapper.deal.TeacherMapper">
+		update t_teacher
+		<set>
+			<if test="teacher_name != null">
+				teacher_name = #{teacher_name,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_birthday != null">
+				teacher_birthday = #{teacher_birthday,jdbcType=DATE},
+			</if>
+			<if test="teacher_identity != null">
+				teacher_identity = #{teacher_identity,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_email != null">
+				teacher_email = #{teacher_email,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_WeChat != null">
+				teacher_WeChat = #{teacher_WeChat,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_hometown != null">
+				teacher_hometown = #{teacher_hometown,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_sex != null">
+				teacher_sex = #{teacher_sex,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_workschool != null">
+				teacher_workschool =
+				#{teacher_workschool,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_major1 != null">
+				teacher_major1 = #{teacher_major1,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_major2 != null">
+				teacher_major2 = #{teacher_major2,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_title != null">
+				teacher_title = #{teacher_title,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_post != null">
+				teacher_post = #{teacher_post,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_education1 != null">
+				teacher_education1 =
+				#{teacher_education1,jdbcType=INTEGER},
+			</if>
+			<if test="teacher_education2 != null">
+				teacher_education2 =
+				#{teacher_education2,jdbcType=INTEGER},
+			</if>
+			<if test="teacher_invite_code != null">
+				teacher_invite_code =
+				#{teacher_invite_code,jdbcType=VARCHAR},
+			</if>
+			<if test="teacher_teach_state != null">
+				teacher_teach_state =
+				#{teacher_teach_state,jdbcType=BIT},
+			</if>
+			<if test="teacher_achievements != null">
+				teacher_achievements =
+				#{teacher_achievements,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="teacher_work_describe != null">
+				teacher_work_describe =
+				#{teacher_work_describe,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where user_id = #{user.user_id,jdbcType=INTEGER}
+	</update>
+	<select id="getTS_verify" parameterType="int"
+		resultType="com.uporanges.entity.TeacherVerifyStudent">
+		select * from t_teacher_verify_student WHERE
+		teacher_id=#{arg0}
+	</select>
+	<update id="TeacherVerifyStudent" parameterType="int">
+		UPDATE
+		t_teacher_verify_student SET join_state=1 WHERE teacher_id =#{arg0}
+		AND student_id =#{arg1}
+	</update>
+	<insert id="TeacherRecommendStu" parameterType="com.uporanges.evo.data_teacher">
+		INSERT INTO
+		t_teacher_recommend VALUES (
+		#{recommend_id},
+		#{teacher_id},
+		#{student_id},
+		#{send_resume_id},
+		#{company_id},
+		#{recommend_describe},
+		#{recommend_time}
+		)
+
+	</insert>
+
+
+
+
+
+</mapper>
