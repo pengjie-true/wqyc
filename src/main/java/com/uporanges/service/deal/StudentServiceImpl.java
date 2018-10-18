@@ -20,6 +20,7 @@ import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
 import com.uporanges.evo.StudentInfo;
+import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
@@ -130,14 +131,22 @@ public class StudentServiceImpl implements StudentService{
 		String picName = "";
 		String docName = "";
 		if(pic!=null || doc!=null) {
+			Map<String, Object> preName = studentMapper.getFilePathbyId(tsr.getResume_id(), tsr.getUser_id());
 			String prefixName = tsr.getUser_id()+"-"+System.currentTimeMillis()+"-";
 			try {
+				//首先删除之前的文件，在增加新文件
 				if(pic!=null) {
+					File prePic = new File((String) preName.get("resume_pic"));
+					if(prePic.exists())
+						prePic.delete();
 					picName = prefixName+pic.getOriginalFilename();
 					File picFile = new File(Value.getStudentresumepicpath()+File.separator+picName);
 					pic.transferTo(picFile);
 				}
 				if(doc!=null) {
+					File preDoc = new File((String) preName.get("resume_document"));
+					if(preDoc.exists())
+						preDoc.delete();
 					docName = prefixName+doc.getOriginalFilename();
 					File docFile = new File(Value.getStudentresumepath()+File.separator+docName);
 					doc.transferTo(docFile);
@@ -151,10 +160,75 @@ public class StudentServiceImpl implements StudentService{
 		return data;
 	}
 	@Transactional
-	public String deleteResume(int user_id, int resume_id) {
+	public String updateResumePic(StudentResumePicDoc srpd) {
 		String data = "{\"code\":200}";
-		if(studentMapper.deleteResume(user_id, resume_id)!=1)
+		int user_id = srpd.getUser_id();
+		int resume_id = srpd.getResume_id();
+		MultipartFile picture = srpd.getResume_pic();
+		String picName = user_id+"-"+System.currentTimeMillis()+"-"+picture.getOriginalFilename();
+		File prePic = new File((String) studentMapper.getFilePathbyId(resume_id, user_id).get("resume_pic"));
+		File picFile = new File(Value.getUserpicpath()+File.separator+picName);
+		if(prePic.exists())
+			prePic.delete();
+		try {
+			picture.transferTo(picFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(studentMapper.updateResumePic(resume_id, user_id, picName)!=1)
 			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String deleteResumePicDoc(int resume_id, int user_id, int id) {
+		String data = "{\"code\":200}";
+		boolean flag = true;
+		Map<String, Object> preName = studentMapper.getFilePathbyId(resume_id, user_id);
+		File preFile = null;
+		if(id==1) {
+			preFile = new File((String) preName.get("resume_pic"));
+			if(preFile.exists())
+				if(!preFile.delete())
+					flag = false;
+		} else if(id==2) {
+			preFile = new File((String) preName.get("resume_document"));
+			if(preFile.exists())
+				if(!preFile.delete())
+					flag = false;
+		}
+		if(!flag)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String updateResumeDoc(StudentResumePicDoc srpd) {
+		String data = "{\"code\":200}";
+		MultipartFile resume_document = srpd.getResume_document();
+		int user_id = srpd.getUser_id();
+		String docName = user_id+"-"+System.currentTimeMillis()+"-"+resume_document.getOriginalFilename();
+		File docFile = new File(Value.getStudentresumepath()+File.separator+docName);
+		try {
+			resume_document.transferTo(docFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(studentMapper.updateResumeDoc(srpd.getResume_id(), user_id, docName)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String deleteResume(int user_id, int resume_id) {
+		String data = "{\"code\":400}";
+		if(studentMapper.deleteResume(user_id, resume_id)==1) {
+			Map<String, Object> praName = studentMapper.getFilePathbyId(resume_id, user_id);
+			File praPic = new File((String) praName.get("resume_id"));
+			File praDoc = new File((String) praName.get("resume_document"));
+			if(praPic.exists())
+				praPic.delete();
+			if(praDoc.exists())
+				praDoc.delete();
+			data = "{\"code\":200}";
+		}
 		return data;
 	}
 	@Transactional(readOnly=true)

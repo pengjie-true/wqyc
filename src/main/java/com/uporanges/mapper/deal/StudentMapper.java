@@ -1,12 +1,14 @@
 package com.uporanges.mapper.deal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -59,6 +61,15 @@ public interface StudentMapper {
 	
 	@UpdateProvider(type=StudentProvider.class, method="alterResume")
 	int alterResume(TStudentResume tStudentResume, String resume_pic, String resumeDocument);
+	
+	@Select("select resume_pic, resume_document from t_student_resume where resume_id=#{arg0} and user_id=#{arg1}")
+	Map<String, Object> getFilePathbyId(int resume_id, int user_id);
+	
+	@Update("update t_student_resume set resume_pic=#{resume_pic} where resume_id=#{resume_id} and user_id=#{user_id}")
+	int updateResumePic(@Param("resume_id")int resume_id, @Param("user_id")int user_id, @Param("resume_pic")String resume_pic);
+	
+	@Update("update t_student_resume set resume_document=#{arg2} where resume_id=#{arg0} and user_id=#{arg1}")
+	int updateResumeDoc(int resume_id, int user_id, String resume_document);
 	
 	@Delete("delete from t_student_resume where resume_id=#{param2} and user_id=#{param1}")
 	int deleteResume(int user_id, int resume_id);

@@ -6,6 +6,7 @@ import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
@@ -30,6 +31,12 @@ public interface StudentService {
 	public String selectCode(String codeName);
 	//学生修改基础简历
 	public String alterResume(TStudentResume tStudentResume);
+	//学生直接添加简历新头像，覆盖原来的头像
+	public String updateResumePic(StudentResumePicDoc srpd);
+	//学生删除简历头像或附件
+	public String deleteResumePicDoc(int resume_id, int user_id, int id);
+	//学生简历附件,在删除完的基础上
+	public String updateResumeDoc(StudentResumePicDoc srpd);
 	//学生删除基础简历
 	public String deleteResume(int user_id, int resume_id);
 	//学生查看自己简历
