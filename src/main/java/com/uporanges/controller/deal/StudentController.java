@@ -130,7 +130,7 @@ public class StudentController {
 	public void deleteResumePicDoc(int resume_id, int user_id, int id, HttpServletResponse response) {
 		Util.writeJson(response, studentService.deleteResumePicDoc(resume_id, user_id, id));
 	}
-	//学生简历附件,在删除完的基础上
+	//增加学生简历附件,在删除完的基础上
 	@PostMapping("updateResumeDoc")
 	public void updateResumeDoc(@RequestBody StudentResumePicDoc srpd, HttpServletResponse response) {
 		Util.writeJson(response, studentService.updateResumeDoc(srpd));
@@ -146,8 +146,12 @@ public class StudentController {
 	public BackJSON getStudentResume(int user_id) {
 		return studentService.getStudentResume(user_id);
 	}
-	//下载简历附件
+	/*
+	 * bc 10.18
+	 * 下载简历附件
+	 */
 	@GetMapping("downDocument")
+	@ResponseBody
 	public ResponseEntity<byte[]> downDocument(String documentPath) throws IOException {
 		File file = new File(documentPath);
 		HttpHeaders header = new HttpHeaders();
