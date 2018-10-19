@@ -175,6 +175,23 @@ public class StudentController {
 	public void toTeacher(@RequestBody TTeacherVerifyStudent ttvs, HttpServletResponse response) {
 		Util.writeJson(response, studentService.toTeacher(ttvs));
 	}
-
+	/*
+	 * bc 10.19
+	 * 用户搜索公司（模糊查询）
+	 */
+	@GetMapping("searchCompany")
+	@ResponseBody
+	public Map<String, Object> searchCompany(@RequestParam(required=false) String keyword, int start) {
+		if(keyword==null)
+			return studentService.searchCompany(start);
+		else {
+			//假设用户按空格区分关键字
+			String keywords[] = keyword.split(" ");
+			if(keywords.length==1)
+				return studentService.searchCompany(keywords[0], start);
+			else 
+				return studentService.searchCompany(keywords, start);
+		} 
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.uporanges.service.deal;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.CompanyMainInfo;
 import com.uporanges.evo.StudentInfo;
 import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
@@ -272,6 +274,52 @@ public class StudentServiceImpl implements StudentService{
 		if(studentMapper.toTeacher(ttvs)!=1)
 			data = "{\"code\":400}";
 		return data;
+	}
+	public Map<String, Object> searchCompany(String key, int start) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 400);
+		List<CompanyMainInfo> companys = studentMapper.getCompanyMainInfobyKey(key, start, Value.getSearchcompanysize());
+		if(companys.size()>0) {
+			resultMap.put("data", companys);
+			resultMap.put("start", start);
+			resultMap.replace("code", 200);
+		} else
+			resultMap.replace("code", 202);
+		return resultMap;
+	}
+	@Transactional(readOnly=true)
+	public Map<String, Object> searchCompany(String[] key, int start) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 400);
+		List<Integer> companyIds = studentMapper.getCompanyIdbyKey(key[0]);
+		if(companyIds.size()>0) {
+			List<Integer> temp = new ArrayList<Integer>();
+			for(int i=1; i<key.length; i++) {
+				temp = studentMapper.getCompanyIdbyKeyandId(key[i], companyIds);
+				if(temp.size()==0)
+					break;
+				companyIds = temp;
+			}
+		} else {
+			resultMap.replace("code", 202);
+			return resultMap;
+		}
+		resultMap.put("data", studentMapper.getCompanyMainInfobyId(companyIds, start, Value.getSearchcompanysize()));
+		resultMap.put("start", start);
+		resultMap.replace("code", 200);
+		return resultMap;
+	}
+	public Map<String, Object> searchCompany(int start) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 400);
+		List<CompanyMainInfo> companys = studentMapper.getCompanyInfo(start, Value.getSearchcompanysize());
+		if(companys.size()>0) {
+			resultMap.put("data", companys);
+			resultMap.put("start", start);
+			resultMap.replace("code", 200);
+		} else
+			resultMap.replace("code", 202);
+		return resultMap;
 	}
 
 }

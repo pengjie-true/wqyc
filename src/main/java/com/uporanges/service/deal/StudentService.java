@@ -47,5 +47,11 @@ public interface StudentService {
 	public BackJSON getCompanyJob(int company_id);
 	//学生向老师提交申请
 	public String toTeacher(TTeacherVerifyStudent ttvs);
+	//学生搜索公司（没输入关键字），直接按顺序返回所有公司
+	public Map<String, Object> searchCompany(int start);
+	//学生搜索公司（单关键字），根据关键字搜索。返回符合条件的公司。
+	public Map<String, Object> searchCompany(String key, int start);
+	//学生搜索公司（多关键字）（模糊搜索）先按第一个关键字搜索，再根据第二个关键字从第一个关键字里筛选，以此类推。
+	public Map<String, Object> searchCompany(String[] key, int start);
 	
 }

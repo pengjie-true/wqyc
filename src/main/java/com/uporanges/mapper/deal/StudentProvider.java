@@ -1,5 +1,7 @@
 package com.uporanges.mapper.deal;
 
+import java.util.List;
+
 import org.apache.ibatis.jdbc.SQL;
 
 import com.uporanges.entity.Student;
@@ -195,6 +197,24 @@ public class StudentProvider {
 				VALUES("deliver_time", "#{deliver_time, jdbcType=TIMESTAMP}");
 			}	
 		}.toString();
+	}
+	public String getCompanyMainInfobyId(final List<Integer> companyId, int start, int size) {
+		String sql = new SQL() {
+			{
+				StringBuilder sb = new StringBuilder();
+				int i = 0;
+				for(; i<companyId.size()-1; i++)
+					sb.append(companyId.get(i)+",");
+				sb.append(companyId.get(i));
+				sb.append(")");
+				SELECT("user_id, company_realname, company_trade, company_nature, company_address, company_logo_pic, company_brief");
+				FROM("t_company");
+				WHERE("user_id in ("+sb.toString());
+			}
+		}.toString();
+		//可以只用sb拼接，此处参数不可以用$
+		sql += " limit #{arg1}, #{arg2}";
+		return sql;
 	}
 	
 }

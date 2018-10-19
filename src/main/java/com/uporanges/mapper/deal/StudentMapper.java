@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.FetchType;
@@ -22,10 +23,12 @@ import com.uporanges.entity.Job;
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
+import com.uporanges.evo.CompanyMainInfo;
 import com.uporanges.evo.StudentInfo;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
+import com.uporanges.evo.UserInfo;
 
 public interface StudentMapper {
 
@@ -115,5 +118,51 @@ public interface StudentMapper {
 	
 	@Insert("insert into t_teacher_verify_student values(#{student_id}, #{teacher_id}, #{join_state}, #{join_time, jdbcType=TIMESTAMP})")
 	int toTeacher(TTeacherVerifyStudent ttvs);
+	
+	@Select("select user_id, company_realname, company_trade, company_nature, company_address, company_logo_pic, company_brief "
+			+ "from t_company limit ${start}, ${size}")
+	@Results({
+		@Result(property="user", column="user_id", javaType=UserInfo.class,
+		one=@One(select="getUserbyId", fetchType=FetchType.EAGER))
+	})
+	List<CompanyMainInfo> getCompanyInfo(@Param("start")int start, @Param("size")int size);
+	
+	@Select("select user_id from t_company where company_realname like \"%\"#{key}\"%\" or company_trade like \"%\"#{key}\"%\" "
+			+ "or company_nature like \"%\"#{key}\"%\" or company_address like \"%\"#{key}\"%\" or company_legal_person like \"%\"#{key}\"%\"")
+	List<Integer> getCompanyIdbyKey(String key);
+	
+	@Select("<script>"
+			+ "select user_id from t_company where user_id in "
+			+ "<foreach item='item' index='index' collection='companyId' open='(' separator=',' close=')'>"
+			+ "#{companyId}"
+			+ "</foreach>"
+			+ "and (company_realname like \"%\"#{key}\"%\" or company_trade like \"%\"#{key}\"%\" or "
+			+ "company_nature like \"%\"#{key}\"%\" or company_address like \"%\"#{key}\"%\" or company_legal_person like \"%\"#{key}\"%\") "
+			+ "</script>")
+	@Results({
+		@Result(id=true, property="user_id", column="user_id")
+	})
+	List<Integer> getCompanyIdbyKeyandId(@Param("key") String key, @Param("companyId")List<Integer> companyId);
+	
+	@SelectProvider(type=StudentProvider.class, method="getCompanyMainInfobyId")
+	@Results({
+		@Result(id=true, property="user", column="user_id", javaType=UserInfo.class,
+				one=@One(select="getUserbyId", fetchType=FetchType.EAGER))
+	})
+	List<CompanyMainInfo> getCompanyMainInfobyId(List<Integer> companyId, int start, int size);
+	
+	@Select("select user_id, company_realname, company_trade, company_nature, company_address, company_logo_pic, company_brief "
+			+ "from t_company where company_realname like CONCAT('%', #{arg0}, '%') "
+			+ "or company_trade like CONCAT('%', #{arg0}, '%') or company_nature like CONCAT('%', #{arg0}, '%') "
+			+ "or company_address like CONCAT('%', #{arg0}, '%') or company_legal_person like CONCAT('%', #{arg0}, '%') "
+			+ "limit #{arg1}, #{arg2}")
+	@Results({
+		@Result(id=true, property="user", column="user_id", javaType=UserInfo.class,
+		one=@One(select="getUserbyId", fetchType=FetchType.EAGER))
+	})
+	List<CompanyMainInfo> getCompanyMainInfobyKey(String key, int start, int size);
+	
+	@Select("select user_id, user_name from t_user where user_id = ${_parameter}")
+	UserInfo getUserbyId(Integer user_id);
 	
 }
