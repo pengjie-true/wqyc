@@ -1,10 +1,17 @@
 package com.uporanges.controller.deal;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +25,7 @@ import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
@@ -112,6 +120,21 @@ public class StudentController {
 	public void alterResume(@RequestBody TStudentResume tStudentResume, HttpServletResponse response) {
 		Util.writeJson(response, studentService.alterResume(tStudentResume));
 	}
+	//学生直接添加简历新头像，覆盖原来的头像
+	@PostMapping("updateResumePic")
+	public void updateResumePic(@RequestBody StudentResumePicDoc srpd, HttpServletResponse response) {
+		Util.writeJson(response, studentService.updateResumePic(srpd));
+	}
+	//学生删除简历头像或附件
+	@RequestMapping("deleteResumePicDoc")
+	public void deleteResumePicDoc(int resume_id, int user_id, int id, HttpServletResponse response) {
+		Util.writeJson(response, studentService.deleteResumePicDoc(resume_id, user_id, id));
+	}
+	//增加学生简历附件,在删除完的基础上
+	@PostMapping("updateResumeDoc")
+	public void updateResumeDoc(@RequestBody StudentResumePicDoc srpd, HttpServletResponse response) {
+		Util.writeJson(response, studentService.updateResumeDoc(srpd));
+	}
 	//学生删除基础简历
 	@DeleteMapping("deleteResume")
 	public void deleteResume(int user_id, int resume_id, HttpServletResponse response) {
@@ -122,6 +145,19 @@ public class StudentController {
 	@ResponseBody
 	public BackJSON getStudentResume(int user_id) {
 		return studentService.getStudentResume(user_id);
+	}
+	/*
+	 * bc 10.18
+	 * 下载简历附件
+	 */
+	@GetMapping("downDocument")
+	@ResponseBody
+	public ResponseEntity<byte[]> downDocument(String documentPath) throws IOException {
+		File file = new File(documentPath);
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		header.setContentDispositionFormData("attachment", documentPath);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), header, HttpStatus.CREATED);
 	}
 	//学生向公司发送简历
 	@RequestMapping("sendResume")
