@@ -69,7 +69,6 @@ public class TeacherController {
 		User user = new User();
 		user.setUser_id(user_id);
 		teacher.setUser(user);
-		teacher.setTeacher_name("教授易小星");
 		return teacherservice.updateByPrimaryKeySelective(teacher);
 	}
 
