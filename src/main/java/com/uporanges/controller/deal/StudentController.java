@@ -29,6 +29,7 @@ import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
+import com.uporanges.service.deal.StudentSearchService;
 import com.uporanges.service.deal.StudentService;
 import com.uporanges.util.Util;
 
@@ -44,6 +45,9 @@ public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
+	
+	@Autowired
+	private StudentSearchService studentSearchService;
 	
 	/*
 	 * bc 10.16
@@ -183,14 +187,14 @@ public class StudentController {
 	@ResponseBody
 	public Map<String, Object> searchCompany(@RequestParam(required=false) String keyword, int start) {
 		if(keyword==null)
-			return studentService.searchCompany(start);
+			return studentSearchService.searchCompany(start);
 		else {
 			//假设用户按空格区分关键字
 			String keywords[] = keyword.split(" ");
 			if(keywords.length==1)
-				return studentService.searchCompany(keywords[0], start);
+				return studentSearchService.searchCompany(keywords[0], start);
 			else 
-				return studentService.searchCompany(keywords, start);
+				return studentSearchService.searchCompany(keywords, start);
 		} 
 	}
 	/*
@@ -200,31 +204,67 @@ public class StudentController {
 	@GetMapping("companyDetailInfo")
 	@ResponseBody
 	public Map<String, Object> companyDetailInfo(int user_id) {
-		return studentService.companyDetailInfo(user_id);
+		return studentSearchService.companyDetailInfo(user_id);
 	}
 	//学生查询更多该公司提供的岗位
 	@GetMapping("companyMoreJob")
 	@ResponseBody
 	public Map<String, Object> companyMoreJob(int user_id, int job_start, int job_size) {
-		return studentService.companyMoreJob(user_id, job_start, job_size);
+		return studentSearchService.companyMoreJob(user_id, job_start, job_size);
 	}
 	//学生查询更多与该公司合作老师
 	@GetMapping("companyMoreTeacher")
 	@ResponseBody
 	public Map<String, Object> companyMoreTeacher(int user_id, int teacher_start, int teacher_size) {
-		return studentService.companyMoreTeacher(user_id, teacher_start, teacher_size);
+		return studentSearchService.companyMoreTeacher(user_id, teacher_start, teacher_size);
 	}
 	//根据teacher_id查询老师详细信息
 	@GetMapping("teacherDetailInfo")
 	@ResponseBody
 	public Map<String, Object> teacherDetailInfo(int teacher_id) {
-		return studentService.teacherDetailInfo(teacher_id);
+		return studentSearchService.teacherDetailInfo(teacher_id);
 	}
 	//学生查看更多与老师合作的公司
 	@GetMapping("teacherMoreCompany")
 	@ResponseBody
 	public Map<String, Object> teacherMoreCompany(int teacher_id, int start, int size) {
-		return studentService.teacherMoreCompany(teacher_id, start, size);
+		return studentSearchService.teacherMoreCompany(teacher_id, start, size);
+	}
+	//学生浏览岗位（模糊搜索）（名字，类型）
+	@GetMapping("searchJob")
+	@ResponseBody
+	public Map<String, Object> searchJob(@RequestParam(required=false) String keyword, int start, int size) {
+		if(keyword==null)
+			return studentSearchService.searchJob(start, size);
+		else {
+			//假设用户输入是按空格分割
+			String[] key = keyword.split(" ");
+			if(key.length==0)
+				return studentSearchService.searchJob(keyword, start, size);
+			else
+				return studentSearchService.searchJob(key, start, size);
+		}
+	}
+	//学生浏览岗位（选择岗位序号）
+	@GetMapping("searchCompanybySelect")
+	@ResponseBody
+	public Map<String, Object> searchCompanybySelect(int job_id, int start, int size) {
+		return studentSearchService.searchCompanybySelect(job_id, start, size);
+	}
+	//学生浏览老师（模糊关键字搜索）老师姓名、籍贯、性别、工作学校、学术方向、职称、职务
+	@GetMapping("searchTeacher")
+	@ResponseBody
+	public Map<String, Object> searchTeacher(@RequestParam(value="keyword", required=false) String keyword, int start, int size) {
+		if(keyword==null)
+			return studentSearchService.searchTeacher(start, size);
+		else {
+			//假设用户空格关键字分开
+			String[] key = keyword.split(" ");
+			if(key.length==0)
+				return studentSearchService.searchTeacher(keyword, start, size);
+			else
+				return studentSearchService.searchTeacher(key, start, size);
+		}
 	}
 	
 }

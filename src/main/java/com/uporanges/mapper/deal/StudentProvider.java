@@ -212,8 +212,35 @@ public class StudentProvider {
 				WHERE("user_id in ("+sb.toString());
 			}
 		}.toString();
-		//可以只用sb拼接，此处参数不可以用$
+		//此处参数不可以用$
 		sql += " limit #{arg1}, #{arg2}";
+		return sql;
+	}
+	public String searchJobbyId(List<Integer> job_ids, int start, int size) {
+		StringBuilder sb = new StringBuilder();
+		int idSize = job_ids.size();
+		sb.append("select * from t_job where job_id in (");
+		for(int i=0; i<idSize-1; i++)
+			sb.append(job_ids.get(i)+",");
+		sb.append(job_ids.get(idSize-1)+") limit "+start+","+size);
+		return sb.toString();
+	}
+	public String searchCompanybySelect(int job_id, int start, int size) {
+		String sql = new SQL() {
+			{
+				SELECT("j.job_id, j.job_name, j.job_type, cj.job_describe, cj.job_salary, "
+						+ "c.company_realname, c.company_address, u.user_id, u.user_name");
+				FROM("t_job as j, t_company_job as cj, t_company as c, t_user as u");
+				WHERE("j.job_id = #{param1}");
+				AND();
+				WHERE("cj.job_id = j.job_id");
+				AND();
+				WHERE("c.user_id = cj.company_id");
+				AND();
+				WHERE("u.user_id = c.user_id");
+			}
+		}.toString();
+		sql += "limit #{param2}, #{param3}";
 		return sql;
 	}
 	

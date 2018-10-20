@@ -19,16 +19,11 @@ import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
-import com.uporanges.evo.CompanyJobTeacher;
-import com.uporanges.evo.CompanyMainInfo;
 import com.uporanges.evo.StudentInfo;
 import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
 import com.uporanges.evo.TTeacherVerifyStudent;
-import com.uporanges.evo.TeacherCompany;
-import com.uporanges.evo.TeacherMainInfo;
-import com.uporanges.evo.TeacherOtherInfo;
 import com.uporanges.mapper.deal.StudentMapper;
 import com.uporanges.util.Value;
 
@@ -38,6 +33,7 @@ public class StudentServiceImpl implements StudentService{
 
 	@Autowired
 	private StudentMapper studentMapper;
+	
 	public int addStudent(Student student) {
 		long now = System.currentTimeMillis();
 		student.setStu_createdtime(new Timestamp(now));
@@ -277,117 +273,6 @@ public class StudentServiceImpl implements StudentService{
 		if(studentMapper.toTeacher(ttvs)!=1)
 			data = "{\"code\":400}";
 		return data;
-	}
-	public Map<String, Object> searchCompany(String key, int start) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("code", 400);
-		List<CompanyMainInfo> companys = studentMapper.getCompanyMainInfobyKey(key, start, Value.getSearchcompanysize());
-		if(companys.size()>0) {
-			resultMap.put("data", companys);
-			resultMap.put("start", start);
-			resultMap.replace("code", 200);
-			if(start==0)
-				resultMap.put("total", studentMapper.countCompanyMainInfobyKey(key));
-		} else
-			resultMap.replace("code", 202);
-		return resultMap;
-	}
-	@Transactional(readOnly=true)
-	public Map<String, Object> searchCompany(String[] key, int start) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("code", 400);
-		List<Integer> companyIds = studentMapper.getCompanyIdbyKey(key[0]);
-		for(int i=1; i<key.length&&companyIds.size()>0; i++) 
-			companyIds = studentMapper.getCompanyIdbyKeyandId(key[i], companyIds);
-		int count = companyIds.size();
-		if(count==0) {
-			resultMap.replace("code", 202);
-			return resultMap;
-		}
-		resultMap.put("data", studentMapper.getCompanyMainInfobyId(companyIds, start, Value.getSearchcompanysize()));
-		resultMap.put("start", start);
-		resultMap.put("count", count);
-		resultMap.replace("code", 200);
-		return resultMap;
-	}
-	public Map<String, Object> searchCompany(int start) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("code", 400);
-		List<CompanyMainInfo> companys = studentMapper.getCompanyInfo(start, Value.getSearchcompanysize());
-		if(companys.size()>0) {
-			resultMap.put("data", companys);
-			resultMap.put("start", start);
-			resultMap.replace("code", 200);
-			if(start==0)
-				resultMap.put("total", studentMapper.countCompanyInfo());
-		} else
-			resultMap.replace("code", 202);
-		return resultMap;
-	}
-	@Transactional(readOnly=true)
-	public Map<String, Object> companyDetailInfo(int user_id) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		CompanyJobTeacher cjt = studentMapper.companyDetailInfo(user_id);
-		if(cjt!=null) {
-			resultMap.put("companyInfo", cjt);
-			resultMap.put("job_tatal", studentMapper.countCompanyJob(user_id));
-			resultMap.put("teacher_total", studentMapper.countCompanyTeacher(user_id));
-			//这里设置第一次查询结束位置为3，后期可改
-			resultMap.put("job_start", 3);
-			resultMap.put("teacher_start", 3);
-			resultMap.put("code", 200);
-		} else
-			resultMap.put("code", 400);
-		return resultMap;
-	}
-	public Map<String, Object> companyMoreJob(int user_id, int job_start, int job_size) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<CompanyJob> job = studentMapper.companyMoreJob(user_id, job_start, job_size);
-		job_size = job.size();
-		if(job_size>0) {
-			resultMap.put("data", job);
-			resultMap.put("code", 200);
-			resultMap.put("job_start", job_start+job_size);
-		} else 
-			resultMap.put("code", 202);
-		return resultMap;
-	}
-	public Map<String, Object> companyMoreTeacher(int user_id, int teacher_start, int teacher_size) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<TeacherMainInfo> teacher = studentMapper.companyMoreTeacher(user_id, teacher_start, teacher_size);
-		teacher_size = teacher.size();
-		if(teacher_size>0) {
-			resultMap.put("data", teacher);
-			resultMap.put("teacher_start", teacher_start+teacher_size);
-			resultMap.put("code", 200);
-		} else 
-			resultMap.put("code", 202);
-		return resultMap;
-	}
-	@Transactional(readOnly=true)
-	public Map<String, Object> teacherDetailInfo(int teacher_id) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		TeacherOtherInfo teacher = studentMapper.teacherDetailInfo(teacher_id);
-		if(teacher!=null) {
-			resultMap.put("data", teacher);
-			resultMap.put("company_start", 3);
-			resultMap.put("company_total", studentMapper.countTeacherCompany(teacher_id));
-			resultMap.put("code", 200);
-		} else
-			resultMap.put("code", 202);
-		return resultMap;
-	}
-	public Map<String, Object> teacherMoreCompany(int teacher_id, int start, int size) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		List<TeacherCompany> company = studentMapper.teacherMoreCompany(teacher_id, start, size);
-		size = company.size();
-		if(size>0) {
-			resultMap.put("data", company);
-			resultMap.put("company_start", start+size);
-			resultMap.put("code", 200);
-		} else 
-			resultMap.put("code", 202);
-		return resultMap;
 	}
 
 }
