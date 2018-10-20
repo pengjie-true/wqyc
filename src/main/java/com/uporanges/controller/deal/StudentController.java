@@ -193,5 +193,38 @@ public class StudentController {
 				return studentService.searchCompany(keywords, start);
 		} 
 	}
+	/*
+	 * bc 10.20
+	 * 查看公司详细信息
+	 */
+	@GetMapping("companyDetailInfo")
+	@ResponseBody
+	public Map<String, Object> companyDetailInfo(int user_id) {
+		return studentService.companyDetailInfo(user_id);
+	}
+	//学生查询更多该公司提供的岗位
+	@GetMapping("companyMoreJob")
+	@ResponseBody
+	public Map<String, Object> companyMoreJob(int user_id, int job_start, int job_size) {
+		return studentService.companyMoreJob(user_id, job_start, job_size);
+	}
+	//学生查询更多与该公司合作老师
+	@GetMapping("companyMoreTeacher")
+	@ResponseBody
+	public Map<String, Object> companyMoreTeacher(int user_id, int teacher_start, int teacher_size) {
+		return studentService.companyMoreTeacher(user_id, teacher_start, teacher_size);
+	}
+	//根据teacher_id查询老师详细信息
+	@GetMapping("teacherDetailInfo")
+	@ResponseBody
+	public Map<String, Object> teacherDetailInfo(int teacher_id) {
+		return studentService.teacherDetailInfo(teacher_id);
+	}
+	//学生查看更多与老师合作的公司
+	@GetMapping("teacherMoreCompany")
+	@ResponseBody
+	public Map<String, Object> teacherMoreCompany(int teacher_id, int start, int size) {
+		return studentService.teacherMoreCompany(teacher_id, start, size);
+	}
 	
 }
