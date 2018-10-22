@@ -33,6 +33,7 @@ public class StudentServiceImpl implements StudentService{
 
 	@Autowired
 	private StudentMapper studentMapper;
+	
 	public int addStudent(Student student) {
 		long now = System.currentTimeMillis();
 		student.setStu_createdtime(new Timestamp(now));

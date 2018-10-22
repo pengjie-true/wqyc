@@ -8,6 +8,12 @@ public class Value {
 	private static final String studentResumePicPath = "";
 	//学生简历地址
 	private static final String studentResumePath = "";
+	//学生查询公司每次查询数值大小
+	private static final int searchCompanySize = 5;
+
+	public static int getSearchcompanysize() {
+		return searchCompanySize;
+	}
 
 	public static String getStudentresumepicpath() {
 		return studentResumePicPath;
