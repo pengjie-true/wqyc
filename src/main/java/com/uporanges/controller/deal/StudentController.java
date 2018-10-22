@@ -172,7 +172,7 @@ public class StudentController {
 	@GetMapping("companyJob")
 	@ResponseBody
 	public BackJSON getCompanyJob(int company_id) {
-		return studentService.getCompanyJob(company_id);
+		return studentService.getCompanyJobs(company_id);
 	}
 	//学生向老师提交申请
 	@RequestMapping("toTeacher")

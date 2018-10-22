@@ -44,7 +44,7 @@ public interface StudentService {
 	//学生向公司发送简历
 	public String sendResume(TStudentSendResume tStudentSendResume);
 	//学生查询公司提供岗位
-	public BackJSON getCompanyJob(int company_id);
+	public BackJSON getCompanyJobs(int company_id);
 	//学生向老师提交申请
 	public String toTeacher(TTeacherVerifyStudent ttvs);
 	

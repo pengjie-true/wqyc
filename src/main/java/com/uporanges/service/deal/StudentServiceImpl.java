@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.uporanges.entity.CompanyJob;
+import com.uporanges.entity.Job;
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
 import com.uporanges.entity.User;
@@ -253,12 +253,12 @@ public class StudentServiceImpl implements StudentService{
 			data = "{\"code\":200, \"send_resume_id\":"+tsr.getSend_resume_id()+"}";
 		return data;
 	}
-	public BackJSON getCompanyJob(int company_id) {
+	public BackJSON getCompanyJobs(int company_id) {
 		BackJSON json = new BackJSON();
 		json.setCode(400);
-		List<CompanyJob> cjs = studentMapper.getCompanyJob(company_id);
+		List<Job> cjs = studentMapper.getCompanyJobs(company_id);
 		if(cjs.size()>0) {
-			json.setCode(200);;
+			json.setCode(200);
 			json.setData(cjs);
 		} else
 			json.setCode(202);

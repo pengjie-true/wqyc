@@ -17,7 +17,6 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.mapping.FetchType;
 
 import com.uporanges.entity.Code;
-import com.uporanges.entity.CompanyJob;
 import com.uporanges.entity.Job;
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
@@ -101,14 +100,8 @@ public interface StudentMapper {
 	@Options(useGeneratedKeys=true, keyProperty="send_resume_id")
 	int sendResume(TStudentSendResume tStudentSendResume);
 	
-	@Select("select * from t_company_job where company_id=#{company_id}")
-	@Results({
-		@Result(property="job_describe", column="job_describe"),
-		@Result(property="job_salary", column="job_salary"),
-		@Result(property="job", column="job_id", javaType=Job.class, 
-		one=@One(select="getJobbyId", fetchType=FetchType.EAGER))
-	})
-	List<CompanyJob> getCompanyJob(int company_id);
+	@Select("select j.* from t_job j where j.job_id in (select cj.job_id from t_company_job cj where cj.company_id=${_parameter})")
+	List<Job> getCompanyJobs(int company_id);
 	
 	@Select("select * from t_job where job_id=#{job_id}")
 	Job getJobbyId(Integer job_id);
