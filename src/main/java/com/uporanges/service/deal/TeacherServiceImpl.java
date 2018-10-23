@@ -1,5 +1,7 @@
 ﻿package com.uporanges.service.deal;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +84,12 @@ public class TeacherServiceImpl implements TeacherService {
 	// 教师查看申请学生加入接口
 	public BackJSON getTS_verify(int teacher_id) {
 		BackJSON back = new BackJSON();
+		for (Map<String, Object> i : teachermapper.getTS_verify(teacher_id)) {
+			String student = teachermapper.getuserbyid((Long) i.get("student_id"));
+			String teachet = teachermapper.getuserbyid((Long) i.get("teacher_id"));
+			i.put("student", student);
+			i.put("teachet", teachet);
+		}
 		back.setCode(200);
 		back.setData(teachermapper.getTS_verify(teacher_id));
 		return back;

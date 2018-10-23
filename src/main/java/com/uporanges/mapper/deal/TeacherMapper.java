@@ -3,10 +3,12 @@ package com.uporanges.mapper.deal;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.uporanges.entity.Teacher;
 import com.uporanges.entity.TeacherRecommend;
 import com.uporanges.entity.TeacherVerifyStudent;
+import com.uporanges.entity.User;
 import com.uporanges.evo.data_teacher;
 
 public interface TeacherMapper {
@@ -19,10 +21,12 @@ public interface TeacherMapper {
 	
 	int updateByPrimaryKeySelective(Teacher teacher);
 	
-	List<TeacherVerifyStudent> getTS_verify(int teacher_id);
+	List<Map<String, Object>> getTS_verify(int teacher_id);
 	
 	int TeacherVerifyStudent(int teacher_id,int student_id);
 	
 	int TeacherRecommendStu(data_teacher data);
+	
+	String getuserbyid(Long long1);
 	
 }

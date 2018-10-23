@@ -30,7 +30,7 @@ public class TeacherController {
 
 	/**
 	 * /教师查看自己信息接口
-	 * 
+	 * http://localhost:8080/qwyc/teacher/getteacherself.shtml?user_id=2
 	 * @param user_id
 	 * @return
 	 */

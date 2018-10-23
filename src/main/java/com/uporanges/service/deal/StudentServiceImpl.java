@@ -102,7 +102,7 @@ public class StudentServiceImpl implements StudentService{
 		String prefixName = sr.getStudent().getUser().getUser_id()+"-"+now+"-";
 		MultipartFile pic = sr.getResume_pic();
 		MultipartFile doc = sr.getResume_document();
-		//文件名字：user_id-当前毫秒数-文件名字
+		//文件名字：user_id-当前毫秒数-文件名字 
 		String picName = prefixName + pic.getOriginalFilename();
 		String docName = prefixName + doc.getOriginalFilename();
 		sr.setResume_creattime(new Timestamp(now));
