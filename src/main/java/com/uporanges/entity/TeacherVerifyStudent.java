@@ -53,6 +53,7 @@ public class TeacherVerifyStudent {
 		this.join_time = join_time;
 		this.student_message = student_message;
 	}
+
 	public TeacherVerifyStudent() {
 		super();
 		// TODO Auto-generated constructor stub

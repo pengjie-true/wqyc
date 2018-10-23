@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
+import com.uporanges.entity.StudentSendResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.StuCollectJobT;
 import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
@@ -172,7 +175,7 @@ public class StudentController {
 	@GetMapping("companyJob")
 	@ResponseBody
 	public BackJSON getCompanyJob(int company_id) {
-		return studentService.getCompanyJob(company_id);
+		return studentService.getCompanyJobs(company_id);
 	}
 	//学生向老师提交申请
 	@RequestMapping("toTeacher")
@@ -265,6 +268,92 @@ public class StudentController {
 			else
 				return studentSearchService.searchTeacher(key, start, size);
 		}
+	}
+	/*
+	 * bc 10.22
+	 * 学生查看自己发送给公司的简历：（待审核的）
+	 */
+	@GetMapping("checkSendResume")
+	@ResponseBody
+	public BackJSON checkSendResume(int user_id) {
+		return studentService.checkSendResume(user_id);
+	}
+	//学生查看自己发送给公司的简历（已通过）
+	@GetMapping("passedResume")
+	@ResponseBody
+	public BackJSON passedResume(int user_id) {
+		return studentService.passedResume(user_id);
+	}
+	//学生查看自己发送给公司的简历（没通过）
+	@GetMapping("rejectResume")
+	@ResponseBody
+	public BackJSON rejectResume(int user_id) {
+		return studentService.rejectResume(user_id);
+	}
+	//查看自己投递的简历的详细信息
+	@GetMapping("sendResumeDetail")
+	@ResponseBody
+	public BackJSON sendResumeDetail(int send_resume_id) {
+		return studentService.sendResumeDetail(send_resume_id);
+	}
+	//学生修改自己发送的简历
+	@PostMapping("alterSendResume")
+	public void alterSendResume(StudentSendResume ssr, HttpServletResponse response) {
+		Util.writeJson(response, studentService.alterSendResume(ssr));
+	}
+	//取消发送的简历
+	@DeleteMapping("deleteSendResume")
+	public void deleteSendResume(int send_resume_id, int user_id, HttpServletResponse response) {
+		Util.writeJson(response, studentService.deleteSendResume(send_resume_id, user_id));
+	}
+	//学生查看自己向老师提交的申请：（待审核的）
+	@GetMapping("checkApplyTeacher")
+	@ResponseBody
+	public BackJSON checkApplyTeacher(int user_id) {
+		return studentService.checkApplyTeacher(user_id);
+	}
+	//已经通过的申请
+	@GetMapping("passedTeacher")
+	@ResponseBody
+	public BackJSON passedTeacher(int user_id) {
+		return studentService.passedTeacher(user_id);
+	}
+	//没通过的申请
+	@GetMapping("rejectTeacher")
+	@ResponseBody
+	public BackJSON rejectTeacher(int user_id) {
+		return studentService.rejectTeacher(user_id);
+	}
+	//学生查看自己的申请详情
+	@GetMapping("checkApplyDetail")
+	public void checkApplyDetail(int student_id, int teacher_id, HttpServletResponse response) {
+		Util.writeJson(response, studentService.checkApplyDetail(student_id, teacher_id));
+	}
+	//修改申请
+	@PostMapping("alterApplyTeacher")
+	public void alterApplyTeacher(@RequestParam Map<String, Object> map, HttpServletResponse response) {
+		Util.writeJson(response, studentService.alterApplyTeacher(map));
+	}
+	//取消申请
+	@DeleteMapping("deleteApplyTeacher")
+	public void deleteApplyTeacher(int student_id, int teacher_id, HttpServletResponse response) {
+		Util.writeJson(response, studentService.deleteApplyTeacher(student_id, teacher_id));
+	}
+	//学生收藏岗位
+	@PostMapping("collectJob")
+	public void collectJob(@ModelAttribute StuCollectJobT scjt, HttpServletResponse response) {
+		Util.writeJson(response, studentService.collectJob(scjt));
+	}
+	//查看时收藏的岗位
+	@GetMapping("seeCollectJob")
+	@ResponseBody
+	public BackJSON seeCollectJob(int user_id) {
+		return studentService.seeCollectJob(user_id);
+	}
+	//学生取消收藏岗位
+	@DeleteMapping("deleteCollectJob")
+	public void deleteCollectJob(int user_id, int job_id, int company_id, HttpServletResponse response) {
+		Util.writeJson(response, studentService.deleteCollectJob(user_id, job_id, company_id));
 	}
 	
 }

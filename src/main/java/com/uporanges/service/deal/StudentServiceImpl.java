@@ -14,11 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.uporanges.entity.CompanyJob;
+import com.uporanges.entity.Job;
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
+import com.uporanges.entity.StudentSendResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.StuApplyTeacher;
+import com.uporanges.evo.StuCollectJob;
+import com.uporanges.evo.StuCollectJobT;
+import com.uporanges.evo.StuResumeCheck;
 import com.uporanges.evo.StudentInfo;
 import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
@@ -253,12 +258,12 @@ public class StudentServiceImpl implements StudentService{
 			data = "{\"code\":200, \"send_resume_id\":"+tsr.getSend_resume_id()+"}";
 		return data;
 	}
-	public BackJSON getCompanyJob(int company_id) {
+	public BackJSON getCompanyJobs(int company_id) {
 		BackJSON json = new BackJSON();
 		json.setCode(400);
-		List<CompanyJob> cjs = studentMapper.getCompanyJob(company_id);
+		List<Job> cjs = studentMapper.getCompanyJobs(company_id);
 		if(cjs.size()>0) {
-			json.setCode(200);;
+			json.setCode(200);
 			json.setData(cjs);
 		} else
 			json.setCode(202);
@@ -271,6 +276,143 @@ public class StudentServiceImpl implements StudentService{
 		ttvs.setJoin_state(0);
 		ttvs.setJoin_time(new Timestamp(System.currentTimeMillis()));
 		if(studentMapper.toTeacher(ttvs)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	public BackJSON checkSendResume(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<StuResumeCheck> src = studentMapper.checkSendResume(user_id);
+		if(src.size()>0) {
+			json.setData(src);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public BackJSON passedResume(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<StuResumeCheck> src = studentMapper.passedResume(user_id);
+		if(src.size()>0) {
+			json.setData(src);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public BackJSON rejectResume(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<StuResumeCheck> src = studentMapper.rejectResume(user_id);
+		if(src.size()>0) {
+			json.setData(src);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public BackJSON sendResumeDetail(int send_resume_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		json.setData(studentMapper.sendResumeDetail(send_resume_id));
+		json.setCode(200);
+		return json;
+	}
+	@Transactional
+	public String alterSendResume(StudentSendResume ssr) {
+		String data = "{\"code\":200}";
+		ssr.setDeliver_time(new Timestamp(System.currentTimeMillis()));
+		if(studentMapper.alterSendResume(ssr)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String deleteSendResume(int send_resume_id, int user_id) {
+		String data = "{\"code\":200}";
+		if(studentMapper.deleteSendResume(send_resume_id, user_id)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	public BackJSON checkApplyTeacher(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<StuApplyTeacher> sat = studentMapper.checkApplyTeacher(user_id);
+		if(sat.size()>0) {
+			json.setData(sat);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public BackJSON passedTeacher(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<Map<String, Object>> sat = studentMapper.passedTeacher(user_id);
+		if(sat.size()>0) {
+			json.setData(sat);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public BackJSON rejectTeacher(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<Map<String, Object>> sat = studentMapper.rejectTeacher(user_id);
+		if(sat.size()>0) {
+			json.setData(sat);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	public String checkApplyDetail(int student_id, int teacher_id) {
+		String data = "{\"code\":400}";
+		String stu_mess = studentMapper.checkApplyDetail(student_id, teacher_id);
+		if(stu_mess!=null)
+			data = "{\"code\":200, \"student_message\":"+JSONObject.toJSONString(stu_mess)+"}";
+		return data;
+	}
+	@Transactional
+	public String alterApplyTeacher(Map<String, Object> map) {
+		String data = "{\"code\":200}";
+		map.put("join_time", new Timestamp(System.currentTimeMillis()));
+		if(studentMapper.alterApplyTeacher(map)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String deleteApplyTeacher(int student_id, int teacher_id) {
+		String data = "{\"code\":200}";
+		if(studentMapper.deleteApplyTeacher(student_id, teacher_id)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional
+	public String collectJob(StuCollectJobT scjt) {
+		String data = "{\"code\":200}";
+		scjt.setCollect_time(new Timestamp(System.currentTimeMillis()));
+		if(studentMapper.collectJob(scjt)!=1)
+			data = "{\"code\":400}";
+		return data;
+	}
+	@Transactional(readOnly=true)
+	public BackJSON seeCollectJob(int user_id) {
+		BackJSON json = new BackJSON();
+		json.setCode(400);
+		List<StuCollectJob> scj = studentMapper.seeCollectJob(user_id);
+		if(scj.size()>0) {
+			json.setData(scj);
+			json.setCode(200);
+		} else
+			json.setCode(202);
+		return json;
+	}
+	@Transactional
+	public String deleteCollectJob(int user_id, int job_id, int company_id) {
+		String data = "{\"code\":200}";
+		if(studentMapper.deleteCollectJob(user_id, job_id, company_id)!=1)
 			data = "{\"code\":400}";
 		return data;
 	}

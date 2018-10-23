@@ -6,9 +6,11 @@ import org.apache.ibatis.jdbc.SQL;
 
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
+import com.uporanges.entity.StudentSendResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
+import com.uporanges.evo.TTeacherVerifyStudent;
 
 public class StudentProvider {
 
@@ -198,6 +200,19 @@ public class StudentProvider {
 			}	
 		}.toString();
 	}
+	public String toTeacher(final TTeacherVerifyStudent ttvs) {
+		return new SQL() {
+			{
+				INSERT_INTO("t_teacher_verify_student");
+				VALUES("student_id", "#{student_id}");
+				VALUES("teacher_id", "#{teacher_id}");
+				VALUES("join_state", "#{join_state}");
+				VALUES("join_time", "#{join_time, jdbcType=TIMESTAMP}");
+				if(ttvs.getStudent_message()!=null)
+					VALUES("student_message", "#{student_message}");
+			}
+		}.toString();
+	}
 	public String getCompanyMainInfobyId(final List<Integer> companyId, int start, int size) {
 		String sql = new SQL() {
 			{
@@ -242,6 +257,27 @@ public class StudentProvider {
 		}.toString();
 		sql += "limit #{param2}, #{param3}";
 		return sql;
+	}
+	public String alterSendResume(final StudentSendResume ssr) {
+		return new SQL() {
+			{
+				UPDATE("t_student_send_resume");
+				if(ssr.getJob1()!=null)
+					SET("expect_job_id1 = #{job1.job_id}");
+				if(ssr.getJob2()!=null)
+					SET("expect_job_id2 = #{job2.job_id}");
+				if(ssr.getResume_expect_workplace1()!=null)
+					SET("resume_expect_workplace1 = #{resume_expect_workplace1}");
+				if(ssr.getResume_expect_workplace2()!=null)
+					SET("resume_expect_workplace2 = #{resume_expect_workplace2}");
+				if(ssr.getResume_expect_salary()!=null)
+					SET("resume_expect_salary = #{resume_expect_salary}");
+				if(ssr.getResume_to_work_time()!=null)
+					SET("resume_to_work_time = #{resume_to_work_time}");
+				SET("deliver_time = #{deliver_time}");
+				WHERE("send_resume_id = #{send_resume_id}");
+			}
+		}.toString();
 	}
 	
 }

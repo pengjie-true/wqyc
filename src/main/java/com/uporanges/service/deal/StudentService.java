@@ -4,8 +4,10 @@ import java.util.Map;
 
 import com.uporanges.entity.Student;
 import com.uporanges.entity.StudentResume;
+import com.uporanges.entity.StudentSendResume;
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
+import com.uporanges.evo.StuCollectJobT;
 import com.uporanges.evo.StudentResumePicDoc;
 import com.uporanges.evo.TStudentResume;
 import com.uporanges.evo.TStudentSendResume;
@@ -44,8 +46,38 @@ public interface StudentService {
 	//学生向公司发送简历
 	public String sendResume(TStudentSendResume tStudentSendResume);
 	//学生查询公司提供岗位
-	public BackJSON getCompanyJob(int company_id);
+	public BackJSON getCompanyJobs(int company_id);
 	//学生向老师提交申请
 	public String toTeacher(TTeacherVerifyStudent ttvs);
+	//学生查看自己发送给公司的简历（待审核阶段）
+	public BackJSON checkSendResume(int user_id);
+	//学生查看自己发送给公司的简历（已通过）
+	public BackJSON passedResume(int user_id);
+	//学生查看自己发送给公司的简历（没通过）
+	public BackJSON rejectResume(int user_id);
+	//查看自己投递的简历的详细信息
+	public BackJSON sendResumeDetail(int send_resume_id);
+	//学生修改自己发送的简历
+	public String alterSendResume(StudentSendResume ssr);
+	//取消发送的简历
+	public String deleteSendResume(int send_resume_id, int user_id);
+	//学生查看自己向老师提交的申请：（待审核的）
+	public BackJSON checkApplyTeacher(int user_id);
+	//已经通过的申请
+	public BackJSON passedTeacher(int user_id);
+	//没通过的申请
+	public BackJSON rejectTeacher(int user_id);
+	//学生查看自己的申请详情
+	public String checkApplyDetail(int student_id, int teacher_id);
+	//修改申请
+	public String alterApplyTeacher(Map<String, Object> map);
+	//取消申请
+	public String deleteApplyTeacher(int student_id, int teacher_id);
+	//学生收藏岗位
+	public String collectJob(StuCollectJobT scjt);
+	//查看时收藏的岗位
+	public BackJSON seeCollectJob(int user_id);
+	//取消收藏岗位
+	public String deleteCollectJob(int user_id, int job_id, int company_id);
 	
 }
