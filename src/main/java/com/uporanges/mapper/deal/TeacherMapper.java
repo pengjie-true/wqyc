@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.uporanges.entity.Teacher;
-import com.uporanges.entity.TeacherRecommend;
-import com.uporanges.entity.TeacherVerifyStudent;
-import com.uporanges.entity.User;
+
 import com.uporanges.evo.data_teacher;
 
 public interface TeacherMapper {

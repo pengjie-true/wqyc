@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uporanges.entity.Teacher;
-import com.uporanges.entity.TeacherRecommend;
+
 import com.uporanges.evo.BackJSON;
 import com.uporanges.evo.data_teacher;
 import com.uporanges.mapper.deal.TeacherMapper;

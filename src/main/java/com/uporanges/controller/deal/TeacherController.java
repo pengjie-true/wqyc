@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uporanges.entity.Teacher;
-import com.uporanges.entity.TeacherRecommend;
+
 import com.uporanges.entity.User;
 import com.uporanges.evo.BackJSON;
 import com.uporanges.evo.data_teacher;
