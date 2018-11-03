@@ -1,10 +1,14 @@
 package com.uporanges.controller.deal;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uporanges.evo.BackJSON;
+
 import com.uporanges.service.deal.CompanyService;
 
 @RestController
@@ -34,11 +38,18 @@ public class CompanyController {
 	
 	
 	/**
-	 * 将某学生的简历置为不被采纳
+	 * 将某学生的简历置为不被采纳  2 不采纳
 	 */
 	@RequestMapping("DisagreeResumeBydeliver_state")
-	public BackJSON DisagreeResumeBydeliver_state(int user_id) {
-		return cs.DisagreeResumeBydeliver_state(user_id,0);
+	public BackJSON DisagreeResumeBydeliver_state(int send_resume_id) {
+		return cs.ChanngeDeliver_stateByResume(send_resume_id,2);
+	}
+	/**
+	 * 将某学生的简历置为被采纳 1代表简历被采纳 
+	 */
+	@RequestMapping("agreeResumeBydeliver_state")
+	public BackJSON agreeResumeBydeliver_state(int send_resume_id) {
+		return cs.ChanngeDeliver_stateByResume(send_resume_id,1);
 	}
 	
 	/**
@@ -53,7 +64,7 @@ public class CompanyController {
 	 * 
 	 * 获取该公司已经确认面试的人
 	 */
-	@RequestMapping("getInterViewByCompany")
+	@GetMapping("getInterViewByCompany")
 	public BackJSON getInterViewByCompany(int user_id) {
 		return cs.getInterViewByCompany(user_id);
 	}
@@ -62,9 +73,18 @@ public class CompanyController {
 	 * 
 	 * 获取该公司今日面试的人
 	 */
-	@RequestMapping("getTodayIntervaerByTime")
+	@GetMapping("getTodayIntervaerByTime")
 	public BackJSON getTodayIntervaerByTime(int user_id,String interview_time) {
 		return cs.getTodayIntervaerByTime(user_id,interview_time);
+	}
+	
+	/**
+	 * 
+	 * 首页获取直接投递所有学生
+	 */
+	@GetMapping("getallOnePageGetStu")
+	public BackJSON getallOnePageGetStu() {
+		return cs.getallOnePageGetStu();
 	}
 	
 	

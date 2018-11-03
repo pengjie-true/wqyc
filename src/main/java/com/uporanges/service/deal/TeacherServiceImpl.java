@@ -1,6 +1,5 @@
 ﻿package com.uporanges.service.deal;
 
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,18 +81,18 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	// 教师查看申请学生加入接口
-	public BackJSON getTS_verify(int teacher_id) {
-		BackJSON back = new BackJSON();
-		for (Map<String, Object> i : teachermapper.getTS_verify(teacher_id)) {
-			String student = teachermapper.getuserbyid((Long) i.get("student_id"));
-			String teachet = teachermapper.getuserbyid((Long) i.get("teacher_id"));
-			i.put("student", student);
-			i.put("teachet", teachet);
-		}
-		back.setCode(200);
-		back.setData(teachermapper.getTS_verify(teacher_id));
-		return back;
-	}
+//	public BackJSON getTS_verify(int teacher_id) {
+//		BackJSON back = new BackJSON();
+//		for (Map<String, Object> i : teachermapper.getTS_verify(teacher_id)) {
+//			String student = teachermapper.getuserbyid((Long) i.get("student_id"));
+//			String teachet = teachermapper.getuserbyid((Long) i.get("teacher_id"));
+//			i.put("student", student);
+//			i.put("teachet", teachet);
+//		}
+//		back.setCode(200);
+//		back.setData(teachermapper.getTS_verify(teacher_id));
+//		return back;
+//	}
 	// 教师审核学生加入接口
 
 	public BackJSON TeacherVerifyStudent(int teacher_id, int student_id) {
@@ -120,5 +119,13 @@ public class TeacherServiceImpl implements TeacherService {
 		back.setData("操作失败");
 		return back;
 	}
+
+
+
+	public BackJSON getTS_verify(int teacher_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

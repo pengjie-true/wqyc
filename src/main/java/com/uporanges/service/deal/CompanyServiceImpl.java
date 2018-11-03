@@ -6,8 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uporanges.entity.IntervView;
+
 import com.uporanges.evo.BackJSON;
+
 import com.uporanges.mapper.deal.CompanyMapper;
 
 @Service
@@ -24,10 +25,10 @@ public class CompanyServiceImpl implements CompanyService {
 		return res;
 	}
 
-	// 将某学生的简历置为不被采纳
-	public BackJSON DisagreeResumeBydeliver_state(int user_id, int delivar_state) {
+	// 将某学生的简历置为： 0代表未查看 1代表简历被采纳 2 不采纳
+	public BackJSON ChanngeDeliver_stateByResume(int send_resume_id, int delivar_state) {
 		BackJSON res = new BackJSON();
-		int sum = companymapper.DisagreeResumeBydeliver_state(user_id, delivar_state);
+		int sum = companymapper.ChanngeDeliver_stateByResume(send_resume_id, delivar_state);
 		if (sum > 0) {
 			res.setCode(200);
 		} else
@@ -71,6 +72,14 @@ public class CompanyServiceImpl implements CompanyService {
 			map.remove("student_id");
 		}
 		res.setData(reslist);
+		return res;
+	}
+
+	// 首页获取直接投递所有学生
+	public BackJSON getallOnePageGetStu() {
+		BackJSON res = new BackJSON();
+		res.setCode(200);
+		res.setData(companymapper.getallOnePageGetStu());
 		return res;
 	}
 

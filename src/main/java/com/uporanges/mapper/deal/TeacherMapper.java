@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.uporanges.entity.Teacher;
-
+import com.uporanges.evo.OnePageGetStu;
 import com.uporanges.evo.data_teacher;
 
 public interface TeacherMapper {
@@ -25,6 +25,6 @@ public interface TeacherMapper {
 	
 	int TeacherRecommendStu(data_teacher data);
 	
-	String getuserbyid(Long long1);
+     List<OnePageGetStu> sssss();
 	
 }
